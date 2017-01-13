@@ -52,8 +52,10 @@
 
         <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
             <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
-            <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
-            <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>
+            <!-- <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
+            <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>  -->
+               <property name="username" value="nvususphkhhefm"/>
+            <property name="password" value="z3BOYOFp4FDUhegc0qKcs1q1A2"/>
         </bean>
         
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
