@@ -4,6 +4,7 @@ package com.example.service;
 import java.util.List;
 
 import com.example.model.Person;
+import com.example.model.PioCylinderHistory;
 
 public interface PersonService {
     
