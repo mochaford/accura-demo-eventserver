@@ -31,8 +31,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Transactional
-    public List<Person> listHistory() {
-        CriteriaQuery<Person> c = em.getCriteriaBuilder().createQuery(PioCylinderHistory.class);
+    public List<PioCylinderHistory> listHistory() {
+        CriteriaQuery<PioCylinderHistory> c = em.getCriteriaBuilder().createQuery(PioCylinderHistory.class);
         c.from(PioCylinderHistory.class);
         return em.createQuery(c).getResultList();
     }
