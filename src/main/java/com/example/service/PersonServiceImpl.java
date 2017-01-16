@@ -5,6 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.Person;
 
+import com.example.model.PioCylinderHistory;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaQuery;
