@@ -10,7 +10,7 @@ public interface PersonService {
     
     public void addPerson(Person person);
     public List<Person> listPeople();
-    public void addPerson(PioCylinderHistory history);
-    public List<Person> listHistory();
+    public void addHistory(PioCylinderHistory history);
+    public List<PioCylinderHistory> listHistory();
     public void removePerson(Integer id);
 }
