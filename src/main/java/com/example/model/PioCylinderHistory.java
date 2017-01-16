@@ -3,15 +3,17 @@ package com.example.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="pio_cylinder_history")
 public class PioCylinderHistory {
 
     @Id
     @GeneratedValue
     private Integer id;
 
-    private String Name;
+    private String name;
 
     
 
@@ -25,11 +27,11 @@ public class PioCylinderHistory {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     
