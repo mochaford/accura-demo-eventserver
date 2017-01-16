@@ -27,6 +27,15 @@ public class PersonController {
 
         return "people";
     }
+    
+    @RequestMapping("/history")
+    public String listHistory(Map<String, Object> map) {
+
+        map.put("history", new PioCylinderHistory());
+        map.put("historyList", personService.listHistory());
+
+        return "history";
+    }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addPerson(@ModelAttribute("person") Person person, BindingResult result) {
@@ -34,6 +43,13 @@ public class PersonController {
         personService.addPerson(person);
 
         return "redirect:/people/";
+    }
+    @RequestMapping(value = "/addHistory", method = RequestMethod.POST)
+    public String addHistory(@ModelAttribute("pioCylinderHistory") PioCylinderHistory history, BindingResult result) {
+
+        personService.addHistory(history);
+
+        return "redirect:/people/history";
     }
 
     @RequestMapping("/delete/{personId}")
