@@ -32,7 +32,7 @@ public class PersonController {
     @RequestMapping("/history")
     public String listHistory(Map<String, Object> map) {
 
-        map.put("history", new PioCylinderHistory());
+        map.put("pioCylinderHistory", new PioCylinderHistory());
         map.put("historyList", personService.listHistory());
 
         return "history";
