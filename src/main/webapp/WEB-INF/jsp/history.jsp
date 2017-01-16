@@ -40,8 +40,8 @@
             </div>
             <form:form method="post" action="addHistory" commandName="pioCylinderHistory" class="form-vertical">
 
-                <form:label path="Name">Name</form:label>
-                <form:input path="Name" />
+                <form:label path="name">Name</form:label>
+                <form:input path="name" />
                 
                 <input type="submit" value="Add Person" class="btn"/>
             </form:form>
@@ -59,7 +59,7 @@
                     <tbody>
                     <c:forEach items="${historyList}" var="history">
                         <tr>
-                            <td> ${history.Name}</td>
+                            <td> ${history.name}</td>
                             <td><form action="delete/${history.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form></td>
                         </tr>
                     </c:forEach>
