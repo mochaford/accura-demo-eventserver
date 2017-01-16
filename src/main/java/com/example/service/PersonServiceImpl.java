@@ -22,7 +22,19 @@ public class PersonServiceImpl implements PersonService {
     public void addPerson(Person person) {
         em.persist(person);
     }
+    
+    @Transactional
+    public void addHistory(PioCylinderHistory history) {
+        em.persist(history);
+    }
 
+    @Transactional
+    public List<Person> listHistory() {
+        CriteriaQuery<Person> c = em.getCriteriaBuilder().createQuery(PioCylinderHistory.class);
+        c.from(PioCylinderHistory.class);
+        return em.createQuery(c).getResultList();
+    }
+    
     @Transactional
     public List<Person> listPeople() {
         CriteriaQuery<Person> c = em.getCriteriaBuilder().createQuery(Person.class);
