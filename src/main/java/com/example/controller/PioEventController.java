@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.model.PioCylinderHistory;
 import com.example.service.PioEventService;
@@ -37,6 +38,7 @@ public class PioEventController {
 		return object.toString();
 	}
 	@RequestMapping(value = "/history", method = RequestMethod.GET)
+	@ResponseBody
 	public String sort(@RequestBody String body) {
 		ResultMapper mapper = new ResultMapper();
 		try {
