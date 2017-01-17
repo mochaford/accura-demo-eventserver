@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.model.PioCylinderHistory;
@@ -39,11 +40,11 @@ public class PioEventController {
 	}
 	@RequestMapping(value = "/history", method = RequestMethod.GET)
 	@ResponseBody
-	public String sort(@RequestBody String body) {
+	public String sort(@RequestParam("param") String param) { //@RequestBody
 		ResultMapper mapper = new ResultMapper();
 		try {
-			System.out.println("-------" + body);
-			JSONObject jsonobject = JSONObject.fromObject(body);
+			System.out.println("-------" + param);
+			JSONObject jsonobject = JSONObject.fromObject(param);
 			PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
 			int res = service.addHistory(user);
 			//mapper.setResult(res);
@@ -56,7 +57,7 @@ public class PioEventController {
 		}
 		JSONObject object = JSONObject.fromObject(mapper);
 		System.out.println("---object----" + object.toString());
-		return body;
+		return param;
 	}
 
 	class ResultMapper {
