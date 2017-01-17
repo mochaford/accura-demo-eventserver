@@ -45,14 +45,16 @@ public class PioEventController {
 			JSONObject jsonobject = JSONObject.fromObject(body);
 			PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
 			int res = service.addHistory(user);
-			mapper.setResult(res);
+			return res + "";
+			//mapper.setResult(res);
 			
 		} catch (Exception e) {
 			mapper.result = "failure";
 			mapper.content = "The Parameter is malformed";
+			return "123";
 		}
-		JSONObject object = JSONObject.fromObject(mapper);
-		return body;
+		//JSONObject object = JSONObject.fromObject(mapper);
+		//return body;
 	}
 
 	class ResultMapper {
