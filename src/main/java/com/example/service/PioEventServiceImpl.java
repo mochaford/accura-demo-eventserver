@@ -21,7 +21,6 @@ public class PioEventServiceImpl implements PioEventService{
     EntityManager em;
 
 	@Transactional
-	@Override
 	public List<PioEvent> sortAndGroupByEvent(Map<String,String> paramMap) {
 		// TODO Auto-generated method stub
 		 //CriteriaQuery<PIOEvent> c = em.getCriteriaBuilder().createQuery(PIOEvent.class);
@@ -39,7 +38,7 @@ public class PioEventServiceImpl implements PioEventService{
 		return null;
 	}
 
-	@Override
+	@Transactional
 	public int addHistory(PioCylinderHistory history) {
 		// TODO Auto-generated method stub
 		int result = 1;

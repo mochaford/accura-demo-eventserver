@@ -46,13 +46,14 @@ public class PioEventController {
 			System.out.println("-------" + param);
 			JSONObject jsonobject = JSONObject.fromObject(param);
 			PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
+			System.out.println("-------" + user.getName());
 			int res = service.addHistory(user);
 			//mapper.setResult(res);
-			
+			System.out.println("---res----" + res);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mapper.result = "failure";
-			mapper.content = "The Parameter is malformed";
+			mapper.setResult(0);
+			mapper.setContent("The Parameter is malformed");
 			return "123";
 		}
 		JSONObject object = JSONObject.fromObject(mapper);
@@ -68,6 +69,18 @@ public class PioEventController {
 
 		}
 
+		public String getContent() {
+			return content;
+		}
+
+		public void setContent(String content) {
+			this.content = content;
+		}
+
+		public String getResult() {
+			return result;
+		}
+
 		public void setResult(int result) {
 			if (result == 0)
 				this.result = "failure";
@@ -75,5 +88,10 @@ public class PioEventController {
 				this.result = "success";
 		}
 
+	}
+	public static void main(String[] args) {
+		JSONObject jsonobject = JSONObject.fromObject("{\"id\":\"5\",\"name\":\"yaoyao\"}");
+		PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
+		System.out.println(user.getName());
 	}
 }
