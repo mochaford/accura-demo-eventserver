@@ -52,7 +52,7 @@ public class PioEventController {
 			mapper.content = "The Parameter is malformed";
 		}
 		JSONObject object = JSONObject.fromObject(mapper);
-		return object.toString();
+		return body;
 	}
 
 	class ResultMapper {
