@@ -42,19 +42,21 @@ public class PioEventController {
 	public String sort(@RequestBody String body) {
 		ResultMapper mapper = new ResultMapper();
 		try {
+			System.out.println("-------" + body);
 			JSONObject jsonobject = JSONObject.fromObject(body);
 			PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
 			int res = service.addHistory(user);
-			return res + "";
 			//mapper.setResult(res);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			mapper.result = "failure";
 			mapper.content = "The Parameter is malformed";
 			return "123";
 		}
-		//JSONObject object = JSONObject.fromObject(mapper);
-		//return body;
+		JSONObject object = JSONObject.fromObject(mapper);
+		System.out.println("---object----" + object.toString());
+		return body;
 	}
 
 	class ResultMapper {
