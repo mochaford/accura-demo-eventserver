@@ -15,6 +15,7 @@ import com.example.service.PersonService;
 import java.util.Map;
 
 @Controller
+@RequestMapping("people")
 public class PersonController {
 
     @Autowired
@@ -36,7 +37,7 @@ public class PersonController {
         map.put("historyList", personService.listHistory());
 
         return "history";
-    }
+    } 
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addPerson(@ModelAttribute("person") Person person, BindingResult result) {

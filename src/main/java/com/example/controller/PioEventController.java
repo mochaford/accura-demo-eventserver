@@ -14,7 +14,7 @@ import com.example.service.PioEventService;
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping("/event")
+@RequestMapping("event")
 public class PioEventController {
 
 	@Autowired
