@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.model.CylinderWrapper;
 import com.example.model.PioCylinderHistory;
 import com.example.model.PioEvent;
 import com.example.service.PioEventService;
@@ -52,7 +53,7 @@ public class PioEventController {
 			//JSONObject jsonobject = JSONObject.fromObject(param);
 			//PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
 			JSONArray jsonArray = JSONArray.fromObject(param);
-			List<PioCylinderHistory> list_pioHistory = (List<PioCylinderHistory>) JSONArray.toCollection(jsonArray,PioCylinderHistory.class);
+			List<CylinderWrapper> list_pioHistory = (List<CylinderWrapper>) JSONArray.toCollection(jsonArray,CylinderWrapper.class);
 			boolean res = service.addHistoryList(list_pioHistory);
 			//mapper.setResult(res);
 			System.out.println("---res----" + res);

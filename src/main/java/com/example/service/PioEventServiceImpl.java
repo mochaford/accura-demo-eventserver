@@ -139,7 +139,7 @@ public class PioEventServiceImpl implements PioEventService {
 	}
 
 	// @Transactional
-	public boolean addHistoryList(List<PioCylinderHistory> list_history) {
+	public boolean addHistoryList(List<CylinderWrapper> list_history) {
 		System.out.println("---addHistoryList" + list_history);
 		// TODO Auto-generated method stub
 		boolean flag = false;
@@ -148,7 +148,7 @@ public class PioEventServiceImpl implements PioEventService {
 		int list_size = list_history.size();
 		em.getTransaction().begin();
 		try {
-			for (PioCylinderHistory pioHistroty : list_history) {
+			for (CylinderWrapper pioHistroty : list_history) {
 				em.persist(pioHistroty);
 				result++;
 				if (list_size < batchSize && result == list_size) {

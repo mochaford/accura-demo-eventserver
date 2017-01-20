@@ -23,7 +23,7 @@ public class CylinderWrapper implements Comparable {
 	private String timeStamp;
 	private String countryCode;
 	private Integer duration;
-	private boolean flag;
+	private Integer flag;
 
 	@Override
 	public int compareTo(Object o) {
@@ -112,12 +112,12 @@ public class CylinderWrapper implements Comparable {
 		this.duration = duration;
 	}
 
-	public boolean isFlag() {
+	public Integer isFlag() {
 		return flag;
 	}
 
-	public void setFlag(boolean flag) {
-		flag = false;
+	public void setFlag(Integer flag) {
+		flag = 0;
 		this.flag = flag;
 	}
 
