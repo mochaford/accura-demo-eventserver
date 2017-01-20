@@ -4,8 +4,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "pio_cylinder_history")
 public class CylinderWrapper implements Comparable {
 
+	@Id
+	@GeneratedValue
+	private Integer id;
 	private String cylinderId;
 	private String materialId;
 	private String accountId;
@@ -13,29 +23,33 @@ public class CylinderWrapper implements Comparable {
 	private String timeStamp;
 	private String countryCode;
 	private Integer duration;
-    
+	private boolean flag;
+
 	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
 		try {
-			CylinderWrapper wrapper = (CylinderWrapper)o;
+			CylinderWrapper wrapper = (CylinderWrapper) o;
 			Long oldTime = formatDateByString(wrapper.timeStamp).getTime();
-	        Long currentTime = formatDateByString(timeStamp).getTime();
-	        Long sorts = (currentTime-oldTime);
-	        if (sorts == 0) return 0;
-	        if (sorts > 0) return 1;
+			Long currentTime = formatDateByString(timeStamp).getTime();
+			Long sorts = (currentTime - oldTime);
+			if (sorts == 0)
+				return 0;
+			if (sorts > 0)
+				return 1;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-        return -1;       
+		return -1;
 	}
 
-	public Date formatDateByString(String source) throws ParseException{
+	public static Date formatDateByString(String source) throws ParseException {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date strDate = formatter.parse(source);
 		return strDate;
 	}
+
 	public static void main(String[] args) throws ParseException {
 		String main = "2016-05-10 00:00:00";
 		Date a = new CylinderWrapper().formatDateByString(main);
@@ -97,4 +111,14 @@ public class CylinderWrapper implements Comparable {
 	public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
+
+	public boolean isFlag() {
+		return flag;
+	}
+
+	public void setFlag(boolean flag) {
+		flag = false;
+		this.flag = flag;
+	}
+
 }

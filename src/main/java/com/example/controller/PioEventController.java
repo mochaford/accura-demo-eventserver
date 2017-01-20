@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.model.PioCylinderHistory;
+import com.example.model.PioEvent;
 import com.example.service.PioEventService;
+import com.example.utils.JsonFormatUtils;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -38,16 +43,40 @@ public class PioEventController {
 		JSONObject object = JSONObject.fromObject(mapper);
 		return object.toString();
 	}
-	@RequestMapping(value = "/history", method = RequestMethod.GET)
+	@RequestMapping(value = "/history", method = RequestMethod.POST)
 	@ResponseBody
-	public String sort(@RequestParam("param") String param) { //@RequestBody
+	public String addHistoryList(@RequestParam("param") String param) { //@RequestBody
 		ResultMapper mapper = new ResultMapper();
 		try {
-			System.out.println("-------" + param);
-			JSONObject jsonobject = JSONObject.fromObject(param);
-			PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
-			System.out.println("-------" + user.getName());
-			int res = service.addHistory(user);
+			System.out.println("---addHistoryList----" + param);
+			//JSONObject jsonobject = JSONObject.fromObject(param);
+			//PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
+			JSONArray jsonArray = JSONArray.fromObject(param);
+			List<PioCylinderHistory> list_pioHistory = (List<PioCylinderHistory>) JSONArray.toCollection(jsonArray,PioCylinderHistory.class);
+			boolean res = service.addHistoryList(list_pioHistory);
+			//mapper.setResult(res);
+			System.out.println("---res----" + res);
+		} catch (Exception e) {
+			e.printStackTrace();
+			mapper.setResult(0);
+			mapper.setContent("The Parameter is malformed");
+			return "123";
+		}
+		JSONObject object = JSONObject.fromObject(mapper);
+		System.out.println("---object----" + object.toString());
+		return param;
+	}
+	@RequestMapping(value = "/pioEvent", method = RequestMethod.GET)
+	@ResponseBody
+	public String addEventList(@RequestParam("param") String param) { //@RequestBody
+		ResultMapper mapper = new ResultMapper();
+		try {
+			System.out.println("---pioEvent----" + param);
+			//JSONArray jsonArray = JSONArray.fromObject(param);
+			//List<PioEvent> list_pioHistory = (List<PioEvent>) JSONArray.toCollection(jsonArray,PioCylinderHistory.class);
+			List<PioEvent> list_pioHistory = service.sortAndGroupByEvent(JsonFormatUtils.parseJSON2MapString(param));
+			
+			boolean res = service.addEventList(list_pioHistory);
 			//mapper.setResult(res);
 			System.out.println("---res----" + res);
 		} catch (Exception e) {

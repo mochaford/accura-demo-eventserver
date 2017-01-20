@@ -10,4 +10,6 @@ public interface PioEventService {
 
 	List<PioEvent> sortAndGroupByEvent(Map<String,String> paramMap);
 	int addHistory(PioCylinderHistory history);
+	boolean addHistoryList(List<PioCylinderHistory> list_pio);
+	boolean addEventList(List<PioEvent> list_pio);
 }
