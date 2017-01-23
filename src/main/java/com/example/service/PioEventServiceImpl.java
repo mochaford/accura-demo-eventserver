@@ -25,8 +25,8 @@ import com.example.model.CylinderWrapper;
 @Service
 public class PioEventServiceImpl implements PioEventService {
 
-	@Autowired
-	private EntityManagerFactory emf;
+	//@Autowired
+	//private EntityManagerFactory emf;
 	
 	@PersistenceContext//(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
@@ -161,7 +161,7 @@ public class PioEventServiceImpl implements PioEventService {
 		int batchSize = 100;
 		int list_size = list_history.size();
 		//EntityManager em = getEm();
-		EntityManager em = emf.createEntityManager();
+		//EntityManager em = emf.createEntityManager();
 	    EntityTransaction tx = em.getTransaction();
 	    tx.begin();
 		
