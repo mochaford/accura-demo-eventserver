@@ -29,7 +29,7 @@ public class PioEventController {
 	private PioEventService service;
 
 	@RequestMapping(value = "/history", method = RequestMethod.POST)
-	public String addHistory(@RequestBody String body) {
+	public String addHistory(@RequestParam("param") String body) {
 		ResultMapper mapper = new ResultMapper();
 		try {
 			JSONObject jsonobject = JSONObject.fromObject(body);
