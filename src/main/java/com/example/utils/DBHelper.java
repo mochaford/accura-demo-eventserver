@@ -29,7 +29,7 @@ public class DBHelper {
         String password = "z3BOYOFp4FDUhegc0qKcs1q1A2";
         try {
             conn = DriverManager.getConnection(url, user, password);
-            conn.setAutoCommit(false);
+            //conn.setAutoCommit(false);
             System.out.println("connection is successful!");
         } catch (SQLException e) {
             System.out.println("connection error！");
