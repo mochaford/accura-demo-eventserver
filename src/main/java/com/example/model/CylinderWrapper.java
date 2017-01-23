@@ -27,7 +27,7 @@ public class CylinderWrapper implements Comparable {
 	private String fillStatus;
 	@Column(name="timestamp")
 	private String timeStamp;
-	@Column(name="countryCode")
+	@Column(name="countrycode")
 	private String countryCode;
 	@Column(name="duration")
 	private Integer duration;
