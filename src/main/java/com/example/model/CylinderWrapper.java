@@ -125,7 +125,7 @@ public class CylinderWrapper implements Comparable {
 		this.duration = duration;
 	}
 
-	public Integer isFlag() {
+	public Integer getFlag() {
 		return flag;
 	}
 

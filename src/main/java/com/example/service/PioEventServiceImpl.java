@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.sql.Connection;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.PioEvent;
+import com.example.utils.DBHelper;
 import com.example.model.CylinderWrapper;
 
 @Service
@@ -136,12 +139,23 @@ public class PioEventServiceImpl implements PioEventService {
 		list_pio_event.add(event);
 	}
 
-	@Transactional
+	//@Transactional
 	public int addHistory(CylinderWrapper history) {
 		// TODO Auto-generated method stub
 		int result = 1;
 		try {
-			em.persist(history);
+			//em.persist(history);
+			Connection conn = DBHelper.getConnection();
+			String sql = "insert into pio_cylinder_history (accountid, countrycode, cylinderid, duration, fillstatus, flag, materialid, timestamp)"
+					+ " VALUES('"+history.getAccountId()+"' , '"+history.getCountryCode()+"' , '"+history.getCylinderId()+"' , '"+history.getDuration()
+					+"' , '"+history.getFillStatus()+"' , '"+history.getFlag()+"' , '"+history.getMaterialId()+"' , '"+history.getTimeStamp()+"')";
+			System.out.println("---addhistory-sql-" + sql);
+			Statement state = conn.createStatement();
+            int count = state.executeUpdate(sql);
+            System.out.println("Operation is successful!");
+            System.out.println(" insert" + count + " record");
+            //操作后释放资源
+            DBHelper.release(conn, state, null);
 		} catch (Exception e) {
 			// TODO: handle exception
 			result = 0;
