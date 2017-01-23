@@ -180,9 +180,9 @@ public class PioEventServiceImpl implements PioEventService {
 				 prest.setString(1, wapper.getAccountId());     
 		         prest.setString(2, wapper.getCountryCode());     
 		         prest.setString(3, wapper.getCylinderId());     
-		         prest.setInt(6, wapper.getFlag());     
 		         prest.setInt(4, wapper.getDuration());  
 		         prest.setString(5, wapper.getFillStatus());
+		         prest.setInt(6, wapper.getFlag());     
 		         prest.setString(7, wapper.getMaterialId());
 		         prest.setString(8, wapper.getTimeStamp());
 		         prest.addBatch(); 
