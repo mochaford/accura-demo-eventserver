@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.PioEvent;
@@ -147,7 +148,7 @@ public class PioEventServiceImpl implements PioEventService {
 		return result;
 	}
 
-	//@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean addHistoryList(List<CylinderWrapper> list_history) {
 		System.out.println("---addHistoryList" + list_history);
 		// TODO Auto-generated method stub
