@@ -39,8 +39,9 @@ public class PioEventController {
 			mapper.setContent("");
 			
 		} catch (Exception e) {
-			mapper.result = "failure";
-			mapper.content = "The Parameter is malformed";
+			mapper.setResult(0);
+			mapper.setContent("The Parameter is malformed");
+			e.printStackTrace();
 		}
 		JSONObject object = JSONObject.fromObject(mapper);
 		return object.toString();
