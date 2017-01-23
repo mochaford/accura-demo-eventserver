@@ -124,7 +124,7 @@ public class PioEventServiceImpl implements PioEventService {
 	}
 
 	@Transactional
-	public int addHistory(PioCylinderHistory history) {
+	public int addHistory(CylinderWrapper history) {
 		// TODO Auto-generated method stub
 		int result = 1;
 		try {

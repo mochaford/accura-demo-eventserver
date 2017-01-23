@@ -10,7 +10,7 @@ import com.example.model.PioCylinderHistory;
 public interface PioEventService {
 
 	List<PioEvent> sortAndGroupByEvent(Map<String,String> paramMap);
-	int addHistory(PioCylinderHistory history);
+	int addHistory(CylinderWrapper history);
 	boolean addHistoryList(List<CylinderWrapper> list_pio);
 	boolean addEventList(List<PioEvent> list_pio);
 }

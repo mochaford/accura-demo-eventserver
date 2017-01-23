@@ -33,7 +33,7 @@ public class PioEventController {
 		ResultMapper mapper = new ResultMapper();
 		try {
 			JSONObject jsonobject = JSONObject.fromObject(body);
-			PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
+			CylinderWrapper user = (CylinderWrapper) JSONObject.toBean(jsonobject, CylinderWrapper.class);
 			int res = service.addHistory(user);
 			mapper.setResult(res);
 			
@@ -44,7 +44,7 @@ public class PioEventController {
 		JSONObject object = JSONObject.fromObject(mapper);
 		return object.toString();
 	}
-	@RequestMapping(value = "/history", method = RequestMethod.POST)
+	@RequestMapping(value = "/historyList", method = RequestMethod.POST)
 	@ResponseBody
 	public String addHistoryList(@RequestParam("param") String param) { //@RequestBody
 		ResultMapper mapper = new ResultMapper();

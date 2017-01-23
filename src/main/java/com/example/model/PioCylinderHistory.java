@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pio_cylinder_history")
+@Table(name="piocylinderhistory")
 public class PioCylinderHistory {
 
     @Id
