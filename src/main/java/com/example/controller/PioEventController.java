@@ -63,9 +63,7 @@ public class PioEventController {
 			JSONArray jsonArray = JSONArray.fromObject(param);
 			System.out.println("---jsonArray----" + jsonArray);
 			List<CylinderWrapper> list_pioHistory = (List<CylinderWrapper>) JSONArray.toCollection(jsonArray,CylinderWrapper.class);
-			boolean res = service.addHistoryList(list_pioHistory);
-			mapper.setResult(res?0:1);
-			mapper.setContent("");
+			int res = service.addHistoryListByJDBC(list_pioHistory);
 			System.out.println("---res----" + res);
 		} catch (Exception e) {
 			e.printStackTrace();

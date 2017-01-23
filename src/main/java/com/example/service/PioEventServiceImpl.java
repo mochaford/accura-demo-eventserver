@@ -1,6 +1,8 @@
 package com.example.service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -166,6 +168,37 @@ public class PioEventServiceImpl implements PioEventService {
 		return result;
 	}
 
+	public int addHistoryListByJDBC(List<CylinderWrapper> list_history){
+		int result = 0;
+		try {
+			Connection conn = DBHelper.getConnection();
+			conn.setAutoCommit(false);
+			int size = list_history.size();
+			String sql = "INSERT into pio_cylinder_history (accountid, countrycode, cylinderid, duration, fillstatus, flag, materialid, timestamp) VALUES(?,?,?,?,?,?,?,?)";     
+			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
+			for(CylinderWrapper wapper : list_history){
+				 prest.setString(1, wapper.getAccountId());     
+		         prest.setString(2, wapper.getCountryCode());     
+		         prest.setString(3, wapper.getCylinderId());     
+		         prest.setInt(6, wapper.getFlag());     
+		         prest.setInt(4, wapper.getDuration());  
+		         prest.setString(5, wapper.getFillStatus());
+		         prest.setString(7, wapper.getMaterialId());
+		         prest.setString(8, wapper.getTimeStamp());
+		         prest.addBatch(); 
+			}
+			 int[] count = prest.executeBatch();     
+			 DBHelper.release(conn, null, null);
+			 System.out.println("--count " + count);
+		} catch (Exception e) {
+			// TODO: handle exception
+			result = 1;
+			System.out.println("--exception " + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	//@Transactional(propagation = Propagation.REQUIRED)
 	public boolean addHistoryList(List<CylinderWrapper> list_history) {
 		System.out.println("---addHistoryList" + list_history);
