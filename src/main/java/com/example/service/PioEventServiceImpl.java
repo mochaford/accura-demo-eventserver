@@ -167,6 +167,7 @@ public class PioEventServiceImpl implements PioEventService {
 		//em.getTransaction().begin();
 		try {
 			for (CylinderWrapper pioHistroty : list_history) {
+				System.out.println("---pioHistroty" + pioHistroty);
 				em.persist(pioHistroty);
 				result++;
 				if (list_size < batchSize && result == list_size) {
