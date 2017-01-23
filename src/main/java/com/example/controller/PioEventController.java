@@ -32,6 +32,7 @@ public class PioEventController {
 	public String addHistory(@RequestParam("param") String body) {
 		ResultMapper mapper = new ResultMapper();
 		try {
+			System.out.println("---body--" + body);
 			JSONObject jsonobject = JSONObject.fromObject(body);
 			CylinderWrapper user = (CylinderWrapper) JSONObject.toBean(jsonobject, CylinderWrapper.class);
 			System.out.println("---user--" + user);

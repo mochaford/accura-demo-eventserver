@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,19 +17,28 @@ public class CylinderWrapper implements Comparable {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	@Column(name="cylinderid")
 	private String cylinderId;
+	@Column(name="materialid")
 	private String materialId;
+	@Column(name="accountid")
 	private String accountId;
+	@Column(name="fillstatus")
 	private String fillStatus;
+	@Column(name="timestamp")
 	private String timeStamp;
+	@Column(name="countryCode")
 	private String countryCode;
+	@Column(name="duration")
 	private Integer duration;
+	@Column(name="flag")
 	private Integer flag;
 
 	@Override
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
-		try {
+		/**
+		 * try {
 			CylinderWrapper wrapper = (CylinderWrapper) o;
 			Long oldTime = formatDateByString(wrapper.timeStamp).getTime();
 			Long currentTime = formatDateByString(timeStamp).getTime();
@@ -41,6 +51,9 @@ public class CylinderWrapper implements Comparable {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		
+		 * 
+		 * */
 		return -1;
 	}
 
