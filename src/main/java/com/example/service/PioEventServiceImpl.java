@@ -28,7 +28,7 @@ public class PioEventServiceImpl implements PioEventService {
 	@Autowired
 	private EntityManagerFactory emf;
 	
-	@PersistenceContext(type = PersistenceContextType.EXTENDED)
+	@PersistenceContext//(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 	
 
