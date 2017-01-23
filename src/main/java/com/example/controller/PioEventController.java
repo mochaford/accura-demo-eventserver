@@ -53,6 +53,7 @@ public class PioEventController {
 			//JSONObject jsonobject = JSONObject.fromObject(param);
 			//PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
 			JSONArray jsonArray = JSONArray.fromObject(param);
+			System.out.println("---jsonArray----" + jsonArray);
 			List<CylinderWrapper> list_pioHistory = (List<CylinderWrapper>) JSONArray.toCollection(jsonArray,CylinderWrapper.class);
 			boolean res = service.addHistoryList(list_pioHistory);
 			//mapper.setResult(res);

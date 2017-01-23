@@ -26,6 +26,15 @@ public class PioEventServiceImpl implements PioEventService {
 
 	@PersistenceContext
 	EntityManager em;
+	
+
+	public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
 
 	@Transactional
 	public List<PioEvent> sortAndGroupByEvent(Map<String, String> paramMap) {
@@ -138,7 +147,7 @@ public class PioEventServiceImpl implements PioEventService {
 		return result;
 	}
 
-	// @Transactional
+	//@Transactional
 	public boolean addHistoryList(List<CylinderWrapper> list_history) {
 		System.out.println("---addHistoryList" + list_history);
 		// TODO Auto-generated method stub
@@ -146,6 +155,7 @@ public class PioEventServiceImpl implements PioEventService {
 		int result = 0;
 		int batchSize = 100;
 		int list_size = list_history.size();
+		EntityManager em = getEm();
 		em.getTransaction().begin();
 		try {
 			for (CylinderWrapper pioHistroty : list_history) {
