@@ -34,6 +34,7 @@ public class PioEventController {
 		try {
 			JSONObject jsonobject = JSONObject.fromObject(body);
 			CylinderWrapper user = (CylinderWrapper) JSONObject.toBean(jsonobject, CylinderWrapper.class);
+			System.out.println("---user--" + user);
 			int res = service.addHistory(user);
 			mapper.setResult(res);
 			mapper.setContent("");

@@ -121,4 +121,11 @@ public class CylinderWrapper implements Comparable {
 		this.flag = flag;
 	}
 
+	@Override
+	public String toString() {
+		return "CylinderWrapper [id=" + id + ", cylinderId=" + cylinderId + ", materialId=" + materialId
+				+ ", accountId=" + accountId + ", fillStatus=" + fillStatus + ", timeStamp=" + timeStamp
+				+ ", countryCode=" + countryCode + ", duration=" + duration + ", flag=" + flag + "]";
+	}
+
 }

@@ -145,6 +145,7 @@ public class PioEventServiceImpl implements PioEventService {
 		} catch (Exception e) {
 			// TODO: handle exception
 			result = 0;
+			System.out.println("addhistory--:" + e.getMessage());
 			e.printStackTrace();
 		}
 
