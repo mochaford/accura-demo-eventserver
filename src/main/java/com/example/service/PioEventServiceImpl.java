@@ -9,23 +9,26 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
 
-import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.PioEvent;
 import com.example.model.CylinderWrapper;
-import com.example.model.PioCylinderHistory;
 
 @Service
 public class PioEventServiceImpl implements PioEventService {
 
-	@PersistenceContext
+	@Autowired
+	private EntityManagerFactory emf;
+	
+	@PersistenceContext(type = PersistenceContextType.EXTENDED)
 	EntityManager em;
 	
 
@@ -148,7 +151,7 @@ public class PioEventServiceImpl implements PioEventService {
 		return result;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	//@Transactional(propagation = Propagation.REQUIRED)
 	public boolean addHistoryList(List<CylinderWrapper> list_history) {
 		System.out.println("---addHistoryList" + list_history);
 		// TODO Auto-generated method stub
@@ -156,8 +159,12 @@ public class PioEventServiceImpl implements PioEventService {
 		int result = 0;
 		int batchSize = 100;
 		int list_size = list_history.size();
-		EntityManager em = getEm();
-		em.getTransaction().begin();
+		//EntityManager em = getEm();
+		EntityManager em = emf.createEntityManager();
+	    EntityTransaction tx = em.getTransaction();
+	    tx.begin();
+		
+		//em.getTransaction().begin();
 		try {
 			for (CylinderWrapper pioHistroty : list_history) {
 				em.persist(pioHistroty);
