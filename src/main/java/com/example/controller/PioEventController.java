@@ -36,6 +36,7 @@ public class PioEventController {
 			CylinderWrapper user = (CylinderWrapper) JSONObject.toBean(jsonobject, CylinderWrapper.class);
 			int res = service.addHistory(user);
 			mapper.setResult(res);
+			mapper.setContent("");
 			
 		} catch (Exception e) {
 			mapper.result = "failure";
@@ -44,6 +45,8 @@ public class PioEventController {
 		JSONObject object = JSONObject.fromObject(mapper);
 		return object.toString();
 	}
+
+	
 	@RequestMapping(value = "/historyList", method = RequestMethod.POST)
 	@ResponseBody
 	public String addHistoryList(@RequestParam("param") String param) { //@RequestBody
@@ -56,7 +59,8 @@ public class PioEventController {
 			System.out.println("---jsonArray----" + jsonArray);
 			List<CylinderWrapper> list_pioHistory = (List<CylinderWrapper>) JSONArray.toCollection(jsonArray,CylinderWrapper.class);
 			boolean res = service.addHistoryList(list_pioHistory);
-			//mapper.setResult(res);
+			mapper.setResult(res?0:1);
+			mapper.setContent("");
 			System.out.println("---res----" + res);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,5 +128,24 @@ public class PioEventController {
 		JSONObject jsonobject = JSONObject.fromObject("{\"id\":\"5\",\"name\":\"yaoyao\"}");
 		PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
 		System.out.println(user.getName());
+		
+		String param = "[{\"cylinderId\":\"1\",\"materialId\":\"1\",\"accountId\":\"1\",\"fillStatus\":\"1\",\"timeStamp\":\"2016-05-10 00:00:00\",\"countryCode\":\"1\",\"duration\":2,\"flag\":2}];";
+		JSONObject jo1 = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+        
+        
+        jo1.put("cylinderId", "1");
+		jo1.put("materialId", "1");
+		jo1.put("accountId", "1");
+		jo1.put("fillStatus", "1");
+		jo1.put("timeStamp", "2016-05-10 00:00:00");
+		jo1.put("countryCode", "1");
+		jo1.put("duration", 2);
+		jo1.put("flag", 2);
+		jsonArray.add(0, jo1.toString());
+		System.out.println("---" + jsonArray);
+		List<CylinderWrapper> list_pioHistory = (List<CylinderWrapper>) JSONArray.toCollection(jsonArray,CylinderWrapper.class);
+		System.out.println("----list_pioHistory :" + list_pioHistory);
+		
 	}
 }
