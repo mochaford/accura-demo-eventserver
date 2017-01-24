@@ -91,7 +91,7 @@ public class PioEventController {
 			}
 			List<PioEvent> list_pioHistory = service.sortAndGroupByEvent(paramMap);
 			
-			boolean res = service.addEventList(list_pioHistory);
+			int res = service.addEventListByJDBC(list_pioHistory);
 			//mapper.setResult(res);
 			System.out.println("---res----" + res);
 		} catch (Exception e) {

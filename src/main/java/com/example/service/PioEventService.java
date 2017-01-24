@@ -14,4 +14,5 @@ public interface PioEventService {
 	boolean addHistoryList(List<CylinderWrapper> list_pio);
 	boolean addEventList(List<PioEvent> list_pio);
 	public int addHistoryListByJDBC(List<CylinderWrapper> list_history);
+	public int addEventListByJDBC(List<PioEvent> list_pio);
 }
