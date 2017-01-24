@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.model.PioEvent;
 import com.example.utils.DBHelper;
+import com.example.utils.StringFormatUtils;
 import com.example.model.CylinderWrapper;
 
 @Service
@@ -184,7 +185,7 @@ public class PioEventServiceImpl implements PioEventService {
 		         prest.setString(5, wapper.getFillStatus());
 		         prest.setInt(6, wapper.getFlag());     
 		         prest.setString(7, wapper.getMaterialId());
-		         prest.setString(8, wapper.getTimeStamp());
+		         prest.setTimestamp(8, StringFormatUtils.getTimesstampByString(wapper.getTimeStamp()));
 		         prest.addBatch(); 
 			}
 			 int[] count = prest.executeBatch();     
@@ -198,6 +199,7 @@ public class PioEventServiceImpl implements PioEventService {
 		}
 		return result;
 	}
+	
 	
 	//@Transactional(propagation = Propagation.REQUIRED)
 	public boolean addHistoryList(List<CylinderWrapper> list_history) {
