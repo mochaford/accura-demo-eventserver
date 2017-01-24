@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -135,7 +136,7 @@ public class PioEventServiceImpl implements PioEventService {
 		Date date = new Date();
 		PioEvent event = new PioEvent();
 		Long entityid = Long.parseLong((Math.random() * 10 + "")) + date.getTime();
-		event.setEntityId(entityid + "");
+		event.setEntityId("" + new DecimalFormat("0").format(Math.random() * 10) + + date.getTime());
 		event.setProperties("{\"text\": \"" + text + "\", \"label\": \"" + label + "\"}");
 		event.setEvent("cylinder");
 		event.setEntityType("content");
