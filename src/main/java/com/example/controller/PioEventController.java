@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,7 +85,11 @@ public class PioEventController {
 			System.out.println("---pioEvent----" + param);
 			//JSONArray jsonArray = JSONArray.fromObject(param);
 			//List<PioEvent> list_pioHistory = (List<PioEvent>) JSONArray.toCollection(jsonArray,PioCylinderHistory.class);
-			List<PioEvent> list_pioHistory = service.sortAndGroupByEvent(JsonFormatUtils.parseJSON2MapString(param));
+			Map<String,String> paramMap = new HashMap();
+			if(param != null){
+				paramMap = JsonFormatUtils.parseJSON2MapString(param);
+			}
+			List<PioEvent> list_pioHistory = service.sortAndGroupByEvent(paramMap);
 			
 			boolean res = service.addEventList(list_pioHistory);
 			//mapper.setResult(res);
