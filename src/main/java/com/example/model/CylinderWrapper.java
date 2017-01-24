@@ -40,8 +40,8 @@ public class CylinderWrapper implements Comparable {
 		
 		try {
 			CylinderWrapper wrapper = (CylinderWrapper) o;
-			Long oldTime = formatDateByString(wrapper.timeStamp).getTime();
-			Long currentTime = formatDateByString(timeStamp).getTime();
+			Long oldTime = formatDateByString(wrapper.getTimeStamp()).getTime();
+			Long currentTime = formatDateByString(this.getTimeStamp()).getTime();
 			Long sorts = (currentTime - oldTime);
 			if (sorts == 0)
 				return 0;
@@ -49,6 +49,7 @@ public class CylinderWrapper implements Comparable {
 				return 1;
 		} catch (Exception e) {
 			// TODO: handle exception
+			
 			e.printStackTrace();
 		}
 		 
