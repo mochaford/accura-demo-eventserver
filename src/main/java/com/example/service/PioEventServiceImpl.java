@@ -122,10 +122,11 @@ public class PioEventServiceImpl implements PioEventService {
 				getListPioEvent(list_pio_event, c, text, label);
 
 			}
-			System.out.println("---www list_pio_event: " + list_pio_event);
+			System.out.println(list_pio_event.size() + "---www list_pio_event: " + list_pio_event);
 			return list_pio_event;
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("--exception3 ; " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -252,6 +253,7 @@ public class PioEventServiceImpl implements PioEventService {
 			Connection conn = DBHelper.getConnection();
 			conn.setAutoCommit(false);
 			int size = list_pio.size();
+			 System.out.println("-addEventListByJDBC event-size " + size);
 			String sql = "INSERT into pio_event_1 (id,entityid, properties, event, entitytype,creationtimezone,eventtimezone) VALUES(?,?,?,?,?,?,?)";     
 			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
 			for(PioEvent wapper : list_pio){
@@ -264,6 +266,7 @@ public class PioEventServiceImpl implements PioEventService {
 		         prest.setString(7, "UTC");  
 		         prest.addBatch(); 
 			}
+			 System.out.println("-event-count---- " );
 			 int[] count = prest.executeBatch();  
 			 conn.commit();
 			 DBHelper.release(conn, null, null);

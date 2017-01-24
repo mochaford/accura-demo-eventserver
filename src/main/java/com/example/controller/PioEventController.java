@@ -90,7 +90,7 @@ public class PioEventController {
 				paramMap = JsonFormatUtils.parseJSON2MapString(param);
 			}
 			List<PioEvent> list_pioHistory = service.sortAndGroupByEvent(paramMap);
-			
+			System.out.println("---list_pioHistory----" + list_pioHistory);
 			int res = service.addEventListByJDBC(list_pioHistory);
 			//mapper.setResult(res);
 			System.out.println("---res----" + res);
