@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -57,5 +59,13 @@ public class StringFormatUtils {
          
         return stringBuffer.toString(); 
     }  
+	 public static String getStringFromTimestamp(Timestamp ts){
+		 DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		 String tsStr = ""; 
+		 if(ts != null)
+			 tsStr = sdf.format(ts); 
+		 return tsStr;
+	 }
 
 }

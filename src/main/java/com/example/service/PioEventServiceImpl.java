@@ -47,7 +47,7 @@ public class PioEventServiceImpl implements PioEventService {
 		this.em = em;
 	}
 
-	@Transactional
+	//@Transactional
 	public List<PioEvent> sortAndGroupByEvent(Map<String, String> paramMap) {
 		// TODO Auto-generated method stub
 		// CriteriaQuery<PIOEvent> c =
@@ -60,9 +60,26 @@ public class PioEventServiceImpl implements PioEventService {
 			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 		}
 		try {
-			Query query = em.createNativeQuery(sql, CylinderWrapper.class);
+			Connection conn = DBHelper.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql); 
+			ResultSet rs = ps.executeQuery(sql);
+			List<CylinderWrapper> list_pioevent = new ArrayList<CylinderWrapper>();
+			while(rs.next()){
+				CylinderWrapper wapper = new CylinderWrapper();
+				wapper.setCylinderId(rs.getString("cylinderid"));
+				wapper.setMaterialId(rs.getString("materialid"));
+				wapper.setAccountId(rs.getString("accountid"));
+				wapper.setFillStatus(rs.getString("fillstatus"));
+				wapper.setTimeStamp(StringFormatUtils.getStringFromTimestamp(rs.getTimestamp("timestamp")));
+				wapper.setCountryCode(rs.getString("countrycode"));
+				wapper.setDuration(rs.getInt("duration"));
+				wapper.setFlag(rs.getInt("flag"));
+				System.out.println("---" + wapper);
+				list_pioevent.add(wapper);
+			}
+			//Query query = em.createNativeQuery(sql, CylinderWrapper.class);
 
-			List<CylinderWrapper> list_pioevent = query.getResultList();
+			//List<CylinderWrapper> list_pioevent = query.getResultList();
 			System.out.println("---list_pioevent" + list_pioevent);
 			Map<String, List<CylinderWrapper>> groups = new HashMap<String, List<CylinderWrapper>>();
 			List<CylinderWrapper> wrappers = null;

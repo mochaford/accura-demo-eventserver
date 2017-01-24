@@ -95,6 +95,7 @@ public class PioEventController {
 			//mapper.setResult(res);
 			System.out.println("---res----" + res);
 		} catch (Exception e) {
+			System.out.println("--addEventList exception" + e.getMessage());
 			e.printStackTrace();
 			mapper.setResult(0);
 			mapper.setContent("The Parameter is malformed");
