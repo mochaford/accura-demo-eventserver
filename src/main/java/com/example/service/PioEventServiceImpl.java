@@ -195,13 +195,13 @@ public class PioEventServiceImpl implements PioEventService {
 			Connection conn = DBHelper.getConnection();
 			conn.setAutoCommit(false);
 			int size = list_history.size();
-			String sql = "INSERT into pio_cylinder_history (accountid, countrycode, cylinderid, duration, fillstatus, flag, materialid, timestamp) VALUES(?,?,?,?,?,?,?,?)";     
+			String sql = "INSERT into pio_cylinder_history (accountid, countrycode, cylinderid, fillstatus, flag, materialid, timestamp) VALUES(?,?,?,?,?,?,?)";     
 			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
 			for(CylinderWrapper wapper : list_history){
 				 prest.setString(1, wapper.getAccountId());     
 		         prest.setString(2, wapper.getCountryCode());     
 		         prest.setString(3, wapper.getCylinderId());     
-		         prest.setInt(4, wapper.getDuration());  
+		         //prest.setInt(4, wapper.getDuration());  
 		         prest.setString(5, wapper.getFillStatus());
 		         prest.setInt(6, wapper.getFlag());     
 		         prest.setString(7, wapper.getMaterialId());
