@@ -135,7 +135,7 @@ public class PioEventServiceImpl implements PioEventService {
 	public void getListPioEvent(List<PioEvent> list_pio_event, CylinderWrapper c, String text, String label) {
 		Date date = new Date();
 		PioEvent event = new PioEvent();
-		Long entityid = Long.parseLong((Math.random() * 10 + "")) + date.getTime();
+		//Long entityid = Long.parseLong((Math.random() * 10 + "")) + date.getTime();
 		event.setEntityId("" + new DecimalFormat("0").format(Math.random() * 10) + + date.getTime());
 		event.setProperties("{\"text\": \"" + text + "\", \"label\": \"" + label + "\"}");
 		event.setEvent("cylinder");
