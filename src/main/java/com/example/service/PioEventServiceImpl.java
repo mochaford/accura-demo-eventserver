@@ -96,7 +96,6 @@ public class PioEventServiceImpl implements PioEventService {
 									- CylinderWrapper.formatDateByString(cw1.getTimeStamp()).getTime();
 							Integer duration = (int) (milliseconds / 1000 / 60 / 60 / 24);
 							cw1.setDuration(duration);
-							;
 							eventList.add(cw1);
 						} else {
 							i = i - 1;

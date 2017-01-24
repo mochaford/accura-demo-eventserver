@@ -38,9 +38,7 @@ public class CylinderWrapper implements Comparable {
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
 		
-		/**
-		 * 
-		 * try {
+		try {
 			CylinderWrapper wrapper = (CylinderWrapper) o;
 			Long oldTime = formatDateByString(wrapper.getTimeStamp()).getTime();
 			Long currentTime = formatDateByString(this.getTimeStamp()).getTime();
@@ -54,7 +52,6 @@ public class CylinderWrapper implements Comparable {
 			
 			e.printStackTrace();
 		}
-		 * */
 		 
 		return -1;
 	}
