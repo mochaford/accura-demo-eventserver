@@ -188,7 +188,8 @@ public class PioEventServiceImpl implements PioEventService {
 		         prest.setTimestamp(8, StringFormatUtils.getTimesstampByString(wapper.getTimeStamp()));
 		         prest.addBatch(); 
 			}
-			 int[] count = prest.executeBatch();     
+			 int[] count = prest.executeBatch();  
+			 conn.commit();
 			 DBHelper.release(conn, null, null);
 			 System.out.println("--count " + count);
 		} catch (Exception e) {
