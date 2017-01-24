@@ -47,7 +47,7 @@ public class PioEventServiceImpl implements PioEventService {
 		this.em = em;
 	}
 
-	@Transactional
+	//@Transactional
 	public List<PioEvent> sortAndGroupByEvent(Map<String, String> paramMap) {
 		// TODO Auto-generated method stub
 		// CriteriaQuery<PIOEvent> c =
