@@ -245,6 +245,34 @@ public class PioEventServiceImpl implements PioEventService {
 		return flag;
 	}
 
+	public int addEventListByJDBC(List<PioEvent> list_pio){
+		int result = 0;
+		try {
+			Connection conn = DBHelper.getConnection();
+			conn.setAutoCommit(false);
+			int size = list_pio.size();
+			String sql = "INSERT into pio_event_1 (entityid, properties, event, entitytype) VALUES(?,?,?,?)";     
+			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
+			for(PioEvent wapper : list_pio){
+				 prest.setString(1, wapper.getEntityId());     
+		         prest.setString(2, wapper.getProperties());     
+		         prest.setString(3, wapper.getEvent());     
+		         prest.setString(4, wapper.getEntityType());  
+		         prest.addBatch(); 
+			}
+			 int[] count = prest.executeBatch();  
+			 conn.commit();
+			 DBHelper.release(conn, null, null);
+			 System.out.println("-event-count " + count.toString());
+		} catch (Exception e) {
+			// TODO: handle exception
+			result = 1;
+			System.out.println("-event-exception " + e.getMessage());
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	@Override
 	public boolean addEventList(List<PioEvent> list_pio) {
 		boolean flag = false;
