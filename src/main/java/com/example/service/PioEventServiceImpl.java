@@ -54,7 +54,7 @@ public class PioEventServiceImpl implements PioEventService {
 		// c.from(PIOEvent.class);
 		// List<PIOEvent> list_pioevent = em.createQuery(c).getResultList();
 		String sql = "select id,cylinderid,materialid,accountid,fillstatus,timestamp,countrycode,"
-				+ "duration,flag where flag=0 ";
+				+ "duration,flag from pio_cylinder_history where flag=0 ";
 		for (Map.Entry<String, String> entry : paramMap.entrySet()) {
 			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 		}
