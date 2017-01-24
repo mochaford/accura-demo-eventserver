@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "pio_cylinder_history")
-@org.hibernate.annotations.Entity(dynamicInsert=false,dynamicUpdate=false) 
+@org.hibernate.annotations.Entity(dynamicUpdate=false) 
 public class CylinderWrapper implements Comparable {
 
 	@Id
@@ -30,7 +30,6 @@ public class CylinderWrapper implements Comparable {
 	private String timeStamp;
 	@Column(name="countrycode")
 	private String countryCode;
-	@Column(name="duration")
 	private Integer duration;
 	@Column(name="flag")
 	private Integer flag;
@@ -122,7 +121,7 @@ public class CylinderWrapper implements Comparable {
 	}
 
 	
-	 public void isDuration(Integer duration) {
+	 public void setDuration(Integer duration) {
 		this.duration = duration;
 	}
 	

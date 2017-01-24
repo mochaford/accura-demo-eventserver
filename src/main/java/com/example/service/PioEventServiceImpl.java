@@ -60,8 +60,8 @@ public class PioEventServiceImpl implements PioEventService {
 			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 		}
 		try {
-			/**
-			 Connection conn = DBHelper.getConnection();
+			
+			Connection conn = DBHelper.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql); 
 			ResultSet rs = ps.executeQuery(sql);
 			List<CylinderWrapper> list_pioevent = new ArrayList<CylinderWrapper>();
@@ -78,10 +78,10 @@ public class PioEventServiceImpl implements PioEventService {
 				System.out.println("---" + wapper);
 				list_pioevent.add(wapper);
 			}
-			 * */
-			Query query = em.createNativeQuery(sql, CylinderWrapper.class);
+			 
+			//Query query = em.createNativeQuery(sql, CylinderWrapper.class);
 
-			List<CylinderWrapper> list_pioevent = query.getResultList();
+			//List<CylinderWrapper> list_pioevent = query.getResultList();
 			System.out.println("---list_pioevent" + list_pioevent);
 			Map<String, List<CylinderWrapper>> groups = new HashMap<String, List<CylinderWrapper>>();
 			List<CylinderWrapper> wrappers = null;
@@ -114,7 +114,7 @@ public class PioEventServiceImpl implements PioEventService {
 							Long milliseconds = CylinderWrapper.formatDateByString(cw2.getTimeStamp()).getTime()
 									- CylinderWrapper.formatDateByString(cw1.getTimeStamp()).getTime();
 							Integer duration = (int) (milliseconds / 1000 / 60 / 60 / 24);
-							cw1.isDuration(duration);
+							cw1.setDuration(duration);
 							eventList.add(cw1);
 						} else {
 							i = i - 1;
