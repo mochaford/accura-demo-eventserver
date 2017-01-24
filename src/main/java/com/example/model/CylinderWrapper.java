@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "pio_cylinder_history")
+@org.hibernate.annotations.Entity(dynamicInsert=false,dynamicUpdate=false) 
 public class CylinderWrapper implements Comparable {
 
 	@Id

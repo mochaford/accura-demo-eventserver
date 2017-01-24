@@ -47,7 +47,7 @@ public class PioEventServiceImpl implements PioEventService {
 		this.em = em;
 	}
 
-	//@Transactional
+	@Transactional
 	public List<PioEvent> sortAndGroupByEvent(Map<String, String> paramMap) {
 		// TODO Auto-generated method stub
 		// CriteriaQuery<PIOEvent> c =
@@ -60,7 +60,8 @@ public class PioEventServiceImpl implements PioEventService {
 			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 		}
 		try {
-			Connection conn = DBHelper.getConnection();
+			/**
+			 Connection conn = DBHelper.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql); 
 			ResultSet rs = ps.executeQuery(sql);
 			List<CylinderWrapper> list_pioevent = new ArrayList<CylinderWrapper>();
@@ -77,9 +78,10 @@ public class PioEventServiceImpl implements PioEventService {
 				System.out.println("---" + wapper);
 				list_pioevent.add(wapper);
 			}
-			//Query query = em.createNativeQuery(sql, CylinderWrapper.class);
+			 * */
+			Query query = em.createNativeQuery(sql, CylinderWrapper.class);
 
-			//List<CylinderWrapper> list_pioevent = query.getResultList();
+			List<CylinderWrapper> list_pioevent = query.getResultList();
 			System.out.println("---list_pioevent" + list_pioevent);
 			Map<String, List<CylinderWrapper>> groups = new HashMap<String, List<CylinderWrapper>>();
 			List<CylinderWrapper> wrappers = null;
