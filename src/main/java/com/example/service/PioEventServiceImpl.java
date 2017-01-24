@@ -60,10 +60,10 @@ public class PioEventServiceImpl implements PioEventService {
 			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 		}
 		try {
-			
+			System.out.println("---sql " + sql);
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql); 
-			ResultSet rs = ps.executeQuery(sql);
+			ResultSet rs = ps.executeQuery();
 			List<CylinderWrapper> list_pioevent = new ArrayList<CylinderWrapper>();
 			while(rs.next()){
 				CylinderWrapper wapper = new CylinderWrapper();
@@ -78,7 +78,7 @@ public class PioEventServiceImpl implements PioEventService {
 				System.out.println("---" + wapper);
 				list_pioevent.add(wapper);
 			}
-			 
+			DBHelper.release(conn, null, null);
 			//Query query = em.createNativeQuery(sql, CylinderWrapper.class);
 
 			//List<CylinderWrapper> list_pioevent = query.getResultList();
