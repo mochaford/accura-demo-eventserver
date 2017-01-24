@@ -121,9 +121,11 @@ public class CylinderWrapper implements Comparable {
 		return duration;
 	}
 
-	public void setDuration(Integer duration) {
+	
+	 public void isDuration(Integer duration) {
 		this.duration = duration;
 	}
+	
 
 	public Integer getFlag() {
 		return flag;
