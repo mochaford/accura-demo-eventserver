@@ -252,13 +252,14 @@ public class PioEventServiceImpl implements PioEventService {
 			Connection conn = DBHelper.getConnection();
 			conn.setAutoCommit(false);
 			int size = list_pio.size();
-			String sql = "INSERT into pio_event_1 (entityid, properties, event, entitytype) VALUES(?,?,?,?)";     
+			String sql = "INSERT into pio_event_1 (id,entityid, properties, event, entitytype) VALUES(?,?,?,?,?)";     
 			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
 			for(PioEvent wapper : list_pio){
-				 prest.setString(1, wapper.getEntityId());     
-		         prest.setString(2, wapper.getProperties());     
-		         prest.setString(3, wapper.getEvent());     
-		         prest.setString(4, wapper.getEntityType());  
+				 prest.setString(1, StringFormatUtils.getShortUuid());
+				 prest.setString(2, wapper.getEntityId());     
+		         prest.setString(3, wapper.getProperties());     
+		         prest.setString(4, wapper.getEvent());     
+		         prest.setString(5, wapper.getEntityType());  
 		         prest.addBatch(); 
 			}
 			 int[] count = prest.executeBatch();  
