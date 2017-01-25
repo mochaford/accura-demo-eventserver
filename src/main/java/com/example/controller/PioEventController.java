@@ -39,11 +39,11 @@ public class PioEventController {
 			CylinderWrapper user = (CylinderWrapper) JSONObject.toBean(jsonobject, CylinderWrapper.class);
 			System.out.println("---user--" + user);
 			int res = service.addHistory(user);
-			mapper.setResult(res);
+			mapper.setResult(res + "");
 			mapper.setContent("");
 			
 		} catch (Exception e) {
-			mapper.setResult(0);
+			mapper.setResult("0");
 			mapper.setContent("The Parameter is malformed");
 			e.printStackTrace();
 		}
@@ -69,7 +69,7 @@ public class PioEventController {
 			System.out.println("---res----" + res);
 		} catch (Exception e) {
 			e.printStackTrace();
-			mapper.setResult(0);
+			mapper.setResult("0");
 			mapper.setContent("The Parameter is malformed");
 			return "123";
 		}
@@ -77,7 +77,7 @@ public class PioEventController {
 		//System.out.println("---object----" + object.toString());
 		return param;
 	}
-	@RequestMapping(value = "/pioEvent", method = RequestMethod.GET)
+	@RequestMapping(value = "/pioEvent", method = RequestMethod.POST)
 	@ResponseBody
 	public String addEventList(@RequestParam("param") String param) { //@RequestBody
 		ResultMapper mapper = new ResultMapper();
@@ -94,16 +94,16 @@ public class PioEventController {
 			int res = service.addEventListByJDBC(list_pioHistory);
 			//mapper.setResult(res);
 			System.out.println("---res----" + res);
+			return res + "";
 		} catch (Exception e) {
 			System.out.println("--addEventList exception" + e.getMessage());
 			e.printStackTrace();
-			mapper.setResult(0);
-			mapper.setContent("The Parameter is malformed");
+			mapper.setResult("0");
+			mapper.setContent(e.getMessage());
 			return "123";
 		}
 		//JSONObject object = JSONObject.fromObject(mapper);
 		//System.out.println("---object----" + object.toString());
-		return param;
 	}
 
 	class ResultMapper {
@@ -118,16 +118,20 @@ public class PioEventController {
 			return content;
 		}
 
+
+
 		public void setContent(String content) {
 			this.content = content;
 		}
+
+
 
 		public String getResult() {
 			return result;
 		}
 
-		public void setResult(int result) {
-			if (result == 0)
+		public void setResult(String result) {
+			if ("0".equals(result))
 				this.result = "failure";
 			else
 				this.result = "success";
@@ -135,7 +139,14 @@ public class PioEventController {
 
 	}
 	public static void main(String[] args) {
-		JSONObject jsonobject = JSONObject.fromObject("{\"id\":\"5\",\"name\":\"yaoyao\"}");
+		ResultMapper mapper = new PioEventController().new ResultMapper();
+		mapper.setResult("0");
+		mapper.setContent("---");
+		JSONObject object = JSONObject.fromObject(mapper);
+		System.out.println("---object----" + object.toString());
+		
+		/**
+		 JSONObject jsonobject = JSONObject.fromObject("{\"id\":\"5\",\"name\":\"yaoyao\"}");
 		PioCylinderHistory user = (PioCylinderHistory) JSONObject.toBean(jsonobject, PioCylinderHistory.class);
 		System.out.println(user.getName());
 		
@@ -156,6 +167,7 @@ public class PioEventController {
 		System.out.println("---" + jsonArray);
 		List<CylinderWrapper> list_pioHistory = (List<CylinderWrapper>) JSONArray.toCollection(jsonArray,CylinderWrapper.class);
 		System.out.println("----list_pioHistory :" + list_pioHistory);
+		 * */
 		
 	}
 }
