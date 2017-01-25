@@ -23,6 +23,7 @@ import javax.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.example.model.PioEvent;
 import com.example.utils.DBHelper;
@@ -64,6 +65,8 @@ public class PioEventServiceImpl implements PioEventService {
 			Connection conn = DBHelper.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql); 
 			ResultSet rs = ps.executeQuery();
+			// update flag
+			updateHistoryFlag(paramMap,conn);
 			List<CylinderWrapper> list_pioevent = new ArrayList<CylinderWrapper>();
 			while(rs.next()){
 				CylinderWrapper wapper = new CylinderWrapper();
@@ -146,11 +149,27 @@ public class PioEventServiceImpl implements PioEventService {
 			// TODO: handle exception
 			System.out.println("--exception3 ; " + e.getMessage());
 			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();  
 		}
 
 		return null;
 	}
 
+	public int updateHistoryFlag(Map<String, String> paramMap,Connection conn) throws Exception{
+		int result = 0;
+		String sql = "update pio_cylinder_history set flag=1 where 1=1 ";
+		for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
+		}
+		PreparedStatement ps = null; 
+		ps = conn.prepareStatement(sql); 
+		int i = ps.executeUpdate(); 
+		if(i != 0){
+			result  = 1;
+		}
+		return result; 
+	}
+	
 	public void getListPioEvent(List<PioEvent> list_pio_event, CylinderWrapper c, String text, String label) {
 		Date date = new Date();
 		PioEvent event = new PioEvent();
@@ -328,6 +347,7 @@ public class PioEventServiceImpl implements PioEventService {
 			System.out.println("--exception : " + e.getMessage());
 			em.getTransaction().rollback();
 			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();  
 		}
 
 		return flag;

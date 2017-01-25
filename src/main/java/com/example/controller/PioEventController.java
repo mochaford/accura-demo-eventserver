@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -100,6 +101,7 @@ public class PioEventController {
 			e.printStackTrace();
 			mapper.setResult("0");
 			mapper.setContent(e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();  
 			return "123";
 		}
 		//JSONObject object = JSONObject.fromObject(mapper);
