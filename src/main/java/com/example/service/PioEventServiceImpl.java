@@ -133,10 +133,10 @@ public class PioEventServiceImpl implements PioEventService {
 				String text = c.getCylinderId() + ' ' + c.getAccountId() + ' ' + c.getMaterialId() + ' '
 						+ c.getCountryCode();
 				String label = "";
-				if (c.getDuration() <= 4)
-					label = "low";
-				else if (c.getDuration() >= 21)
-					label = "high";
+				if (c.getDuration() <= 5)
+					label = "fast";
+				else if (c.getDuration() > 10)
+					label = "slow";
 				else
 					label = "middle";
 
