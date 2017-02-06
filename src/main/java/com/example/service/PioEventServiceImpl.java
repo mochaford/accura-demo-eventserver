@@ -134,9 +134,9 @@ public class PioEventServiceImpl implements PioEventService {
 						+ c.getCountryCode();
 				String label = "";
 				if (c.getDuration() <= 5)
-					label = "fast";
+					label = "high";
 				else if (c.getDuration() > 10)
-					label = "slow";
+					label = "low";
 				else
 					label = "middle";
 
