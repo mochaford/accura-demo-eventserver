@@ -54,8 +54,8 @@
             <property name="url" value="#{ 'jdbc:postgresql://' + @dbUrl.getHost() + ':' + @dbUrl.getPort() + @dbUrl.getPath() }"/>
             <!-- <property name="username" value="#{ @dbUrl.getUserInfo().split(':')[0] }"/>
             <property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }"/>  -->
-               <property name="username" value="nvususphkhhefm"/>
-            <property name="password" value="z3BOYOFp4FDUhegc0qKcs1q1A2"/>
+               <property name="username" value="hsikldswgfdloa"/>
+            <property name="password" value="69ce55f038ca237ad57bdb26fd9965a5b44f41a14f39b88a1ad1596943f0a63d"/>
         </bean>
         
         <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
