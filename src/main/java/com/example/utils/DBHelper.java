@@ -24,7 +24,7 @@ public class DBHelper {
     public static Connection getConnection(){
         Connection conn = null;
         
-        String url = "jdbc:postgresql://ec2-184-73-222-90.compute-1.amazonaws.com:5432/d2lsaamtekotkf?sslmode=require";
+        String url = "jdbc:postgresql://ec2-54-75-239-190.eu-west-1.compute.amazonaws.com:5432/d2lsaamtekotkf?sslmode=require";
         String user = "hsikldswgfdloa";
         String password = "69ce55f038ca237ad57bdb26fd9965a5b44f41a14f39b88a1ad1596943f0a63d";
         try {
