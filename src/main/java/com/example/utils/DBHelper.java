@@ -24,9 +24,9 @@ public class DBHelper {
     public static Connection getConnection(){
         Connection conn = null;
         
-        String url = "jdbc:postgresql://ec2-184-73-222-90.compute-1.amazonaws.com:5432/dc5h17281h8m39?sslmode=require";
-        String user = "nvususphkhhefm";
-        String password = "z3BOYOFp4FDUhegc0qKcs1q1A2";
+        String url = "jdbc:postgresql://ec2-184-73-222-90.compute-1.amazonaws.com:5432/d2lsaamtekotkf?sslmode=require";
+        String user = "hsikldswgfdloa";
+        String password = "69ce55f038ca237ad57bdb26fd9965a5b44f41a14f39b88a1ad1596943f0a63d";
         try {
             conn = DriverManager.getConnection(url, user, password);
             //conn.setAutoCommit(false);
