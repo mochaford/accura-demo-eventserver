@@ -50,13 +50,9 @@ public class PioEventServiceImpl implements PioEventService {
 
 	//@Transactional
 	public List<PioEvent> sortAndGroupByEvent(Map<String, String> paramMap) {
-		// TODO Auto-generated method stub
-		// CriteriaQuery<PIOEvent> c =
-		// em.getCriteriaBuilder().createQuery(PIOEvent.class);
-		// c.from(PIOEvent.class);
-		// List<PIOEvent> list_pioevent = em.createQuery(c).getResultList();
-		String sql = "select id,cylinderid,materialid,accountid,fillstatus,timestamp,countrycode,"
-				+ "duration,flag from pio_cylinder_history where flag=0 ";
+		
+		String sql = "select id,cylinderid,materialid,locationid,filling_level,timestamp,"
+				+ "flag from pio_cylinder_filling_level_history where flag=0 ";
 		for (Map.Entry<String, String> entry : paramMap.entrySet()) {
 			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 		}
@@ -72,10 +68,9 @@ public class PioEventServiceImpl implements PioEventService {
 				CylinderWrapper wapper = new CylinderWrapper();
 				wapper.setCylinderId(rs.getString("cylinderid"));
 				wapper.setMaterialId(rs.getString("materialid"));
-				wapper.setAccountId(rs.getString("accountid"));
-				wapper.setFillStatus(rs.getString("fillstatus"));
+				wapper.setFillingLevel(rs.getString("filling_level"));
+				wapper.setLocationId(rs.getString("locationid"));
 				wapper.setTimeStamp(StringFormatUtils.getStringFromTimestamp(rs.getTimestamp("timestamp")));
-				wapper.setCountryCode(rs.getString("countrycode"));
 				wapper.setDuration(rs.getInt("duration"));
 				wapper.setFlag(rs.getInt("flag"));
 				System.out.println("---" + wapper);
@@ -89,7 +84,7 @@ public class PioEventServiceImpl implements PioEventService {
 			Map<String, List<CylinderWrapper>> groups = new HashMap<String, List<CylinderWrapper>>();
 			List<CylinderWrapper> wrappers = null;
 			for (CylinderWrapper c : list_pioevent) {
-				String key = c.getCylinderId() + c.getAccountId() + c.getMaterialId() + c.getCountryCode();
+				String key = c.getCylinderId() + c.getMaterialId();
 				if (groups.containsKey(key)) {
 					wrappers = groups.get(key);
 				} else {
@@ -113,7 +108,7 @@ public class PioEventServiceImpl implements PioEventService {
 						CylinderWrapper cw1 = clist.get(i);// 100
 
 						CylinderWrapper cw2 = clist.get(i + 1);// 0
-						if (cw1.getFillStatus().equals("100") && cw2.getFillStatus().equals("0")) {
+						if (cw1.getFillingLevel().equals("100") && cw2.getFillingLevel().equals("0")) {
 							Long milliseconds = CylinderWrapper.formatDateByString(cw2.getTimeStamp()).getTime()
 									- CylinderWrapper.formatDateByString(cw1.getTimeStamp()).getTime();
 							Integer duration = (int) (milliseconds / 1000 / 60 / 60 / 24);
@@ -130,8 +125,7 @@ public class PioEventServiceImpl implements PioEventService {
 			List<PioEvent> list_pio_event = new ArrayList<PioEvent>();
 			// save events
 			for (CylinderWrapper c : eventList) {
-				String text = c.getCylinderId() + ' ' + c.getAccountId() + ' ' + c.getMaterialId() + ' '
-						+ c.getCountryCode();
+				String text = c.getCylinderId() + ' ' + c.getMaterialId();
 				String label = "";
 				if (c.getDuration() <= 5)
 					label = "high";
@@ -157,7 +151,7 @@ public class PioEventServiceImpl implements PioEventService {
 
 	public int updateHistoryFlag(Map<String, String> paramMap,Connection conn) throws Exception{
 		int result = 0;
-		String sql = "update pio_cylinder_history set flag=1 where 1=1 ";
+		String sql = "update pio_cylinder_filling_level_history set flag=1 where 1=1 ";
 		for (Map.Entry<String, String> entry : paramMap.entrySet()) {
 			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 		}
@@ -188,9 +182,9 @@ public class PioEventServiceImpl implements PioEventService {
 		try {
 			//em.persist(history);
 			Connection conn = DBHelper.getConnection();
-			String sql = "insert into pio_cylinder_history (accountid, countrycode, cylinderid, duration, fillstatus, flag, materialid, timestamp)"
-					+ " VALUES('"+history.getAccountId()+"' , '"+history.getCountryCode()+"' , '"+history.getCylinderId()+"' , '"+history.getDuration()
-					+"' , '"+history.getFillStatus()+"' , '"+history.getFlag()+"' , '"+history.getMaterialId()+"' , '"+history.getTimeStamp()+"')";
+			String sql = "insert into pio_cylinder_filling_level_history ( locationid, cylinderid, filling_level, flag, materialid, timestamp)"
+					+ " VALUES('"+history.getLocationId()+"', '"+history.getCylinderId()+"' , '"+history.getFillingLevel()
+					+"' ,'"+history.getFlag()+"' , '"+history.getMaterialId()+"' , '"+history.getTimeStamp()+"')";
 			System.out.println("---addhistory-sql-" + sql);
 			Statement state = conn.createStatement();
             int count = state.executeUpdate(sql);
@@ -214,17 +208,15 @@ public class PioEventServiceImpl implements PioEventService {
 			Connection conn = DBHelper.getConnection();
 			conn.setAutoCommit(false);
 			int size = list_history.size();
-			String sql = "INSERT into pio_cylinder_history (accountid, countrycode, cylinderid, fillstatus, flag, materialid, timestamp) VALUES(?,?,?,?,?,?,?)";     
+			String sql = "INSERT into pio_cylinder_filling_level_history (locationid, cylinderid, filling_level, flag, materialid, timestamp) VALUES(?,?,?,?,?,?)";     
 			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
 			for(CylinderWrapper wapper : list_history){
-				 prest.setString(1, wapper.getAccountId());     
-		         prest.setString(2, wapper.getCountryCode());     
-		         prest.setString(3, wapper.getCylinderId());     
-		         //prest.setInt(4, wapper.getDuration());  
-		         prest.setString(4, wapper.getFillStatus());
-		         prest.setInt(5, wapper.getFlag()==null?0:wapper.getFlag());     
-		         prest.setString(6, wapper.getMaterialId());
-		         prest.setTimestamp(7, StringFormatUtils.getTimesstampByString(wapper.getTimeStamp()));
+				 prest.setString(1, wapper.getLocationId());     
+		         prest.setString(2, wapper.getCylinderId());     
+		         prest.setString(3, wapper.getFillingLevel());
+		         prest.setInt(4, wapper.getFlag()==null?0:wapper.getFlag());     
+		         prest.setString(5, wapper.getMaterialId());
+		         prest.setTimestamp(6, StringFormatUtils.getTimesstampByString(wapper.getTimeStamp()));
 		         prest.addBatch(); 
 			}
 			 int[] count = prest.executeBatch();  
@@ -238,50 +230,6 @@ public class PioEventServiceImpl implements PioEventService {
 			e.printStackTrace();
 		}
 		return result;
-	}
-	
-	
-	//@Transactional(propagation = Propagation.REQUIRED)
-	public boolean addHistoryList(List<CylinderWrapper> list_history) {
-		System.out.println("---addHistoryList" + list_history);
-		// TODO Auto-generated method stub
-		boolean flag = false;
-		int result = 0;
-		int batchSize = 100;
-		int list_size = list_history.size();
-		//EntityManager em = getEm();
-		//EntityManager em = emf.createEntityManager();
-	    EntityTransaction tx = em.getTransaction();
-	    tx.begin();
-		
-		//em.getTransaction().begin();
-		try {
-			for (CylinderWrapper pioHistroty : list_history) {
-				System.out.println("---getCylinderId " + pioHistroty.getCylinderId());
-				System.out.println("---getAccountId " + pioHistroty.getAccountId());
-				System.out.println("---getMaterialId " + pioHistroty.getMaterialId());
-				em.persist(pioHistroty);
-				result++;
-				if (list_size < batchSize && result == list_size) {
-					em.flush();
-					em.clear();
-				} else if ((list_size < batchSize && result % batchSize == 0) || result == list_size) {
-					em.flush();
-					em.clear();
-				}
-				flag = true;
-				System.out.println("addHistoryList批量保存实体成功，" + em.getClass().getName());
-			}
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("--exception : " + e.getMessage());
-			flag = false;
-			em.getTransaction().rollback();
-			e.printStackTrace();
-		}
-
-		return flag;
 	}
 
 	public int addEventListByJDBC(List<PioEvent> list_pio){

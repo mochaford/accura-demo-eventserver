@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pio_cylinder_history")
+@Table(name = "pio_cylinder_filling_level_history")
 @org.hibernate.annotations.Entity(dynamicUpdate=false) 
 public class CylinderWrapper implements Comparable {
 
@@ -22,14 +22,12 @@ public class CylinderWrapper implements Comparable {
 	private String cylinderId;
 	@Column(name="materialid")
 	private String materialId;
-	@Column(name="accountid")
-	private String accountId;
-	@Column(name="fillstatus")
-	private String fillStatus;
+	@Column(name="filling_level")
+	private String fillingLevel;
 	@Column(name="timestamp")
 	private String timeStamp;
-	@Column(name="countrycode")
-	private String countryCode;
+	@Column(name="locationid")
+	private String locationId;
 	private Integer duration;
 	@Column(name="flag")
 	private Integer flag;
@@ -84,20 +82,28 @@ public class CylinderWrapper implements Comparable {
 		this.materialId = materialId;
 	}
 
-	public String getAccountId() {
-		return accountId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public String getFillStatus() {
-		return fillStatus;
+	public String getFillingLevel() {
+		return fillingLevel;
 	}
 
-	public void setFillStatus(String fillStatus) {
-		this.fillStatus = fillStatus;
+	public void setFillingLevel(String fillingLevel) {
+		this.fillingLevel = fillingLevel;
+	}
+
+	public String getLocationId() {
+		return locationId;
+	}
+
+	public void setLocationId(String locationId) {
+		this.locationId = locationId;
 	}
 
 	public String getTimeStamp() {
@@ -108,13 +114,7 @@ public class CylinderWrapper implements Comparable {
 		this.timeStamp = timeStamp;
 	}
 
-	public String getCountryCode() {
-		return countryCode;
-	}
-
-	public void setCountryCode(String countryCode) {
-		this.countryCode = countryCode;
-	}
+	
 
 	public Integer getDuration() {
 		return duration;
@@ -138,8 +138,9 @@ public class CylinderWrapper implements Comparable {
 	@Override
 	public String toString() {
 		return "CylinderWrapper [id=" + id + ", cylinderId=" + cylinderId + ", materialId=" + materialId
-				+ ", accountId=" + accountId + ", fillStatus=" + fillStatus + ", timeStamp=" + timeStamp
-				+ ", countryCode=" + countryCode + ", duration=" + duration + ", flag=" + flag + "]";
+				+ ", fillingLevel=" + fillingLevel + ", timeStamp=" + timeStamp + ", locationId=" + locationId
+				+ ", duration=" + duration + ", flag=" + flag + "]";
 	}
+	
 
 }
