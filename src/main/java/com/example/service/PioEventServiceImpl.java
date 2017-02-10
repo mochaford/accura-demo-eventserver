@@ -71,7 +71,7 @@ public class PioEventServiceImpl implements PioEventService {
 				wapper.setFillingLevel(rs.getString("filling_level"));
 				wapper.setLocationId(rs.getString("locationid"));
 				wapper.setTimeStamp(StringFormatUtils.getStringFromTimestamp(rs.getTimestamp("timestamp")));
-				wapper.setDuration(rs.getInt("duration"));
+				//wapper.setDuration(rs.getInt("duration"));
 				wapper.setFlag(rs.getInt("flag"));
 				System.out.println("---" + wapper);
 				list_pioevent.add(wapper);
