@@ -224,7 +224,7 @@ public class PioEventServiceImpl implements PioEventService {
 			getListPioEvent(list_pio_event, cw, text, label);
 			System.out.println("--doEventByHistoryPerGroup--list_pio_event: " + list_pio_event);
 		}
-		list_cw = new ArrayList();
+		list_cw.clear();
 	}
 
 	public int updateHistoryFlag(Map<String, String> paramMap,Connection conn) throws Exception{
