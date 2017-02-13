@@ -199,10 +199,14 @@ public class PioEventServiceImpl implements PioEventService {
 	public void doEventByHistoryPerGroup(List<CylinderWrapper> list_cw,CylinderWrapper zeroCylinder,List<PioEvent> list_pio_event) throws Exception{
 		System.out.println("--doEventByHistoryPerGroup--list_cw: " + list_cw);
 		for(CylinderWrapper cw :list_cw){
+			if("0".equals(cw.getFillingLevel())){
+				continue;
+			}
 			String categories = getDuringTime(cw,zeroCylinder);
 			System.out.println("--doEventByHistoryPerGroup--categories: " + categories);
 			Double fill_level = Double.parseDouble(cw.getFillingLevel());
 			String Filling_Level_Range = "";
+			System.out.println("--doEventByHistoryPerGroup--fill_level: " + fill_level);
 			if(80 < fill_level && fill_level <= 100){
 				Filling_Level_Range = "81-100";
 			}else if(60 < fill_level && fill_level <= 80){
