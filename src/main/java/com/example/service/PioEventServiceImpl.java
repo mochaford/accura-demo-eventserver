@@ -154,7 +154,7 @@ public class PioEventServiceImpl implements PioEventService {
 			return list_pio_event;
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("--exception3 ; " + e.getMessage());
+			System.out.println("--exception3  " + e.getMessage());
 			e.printStackTrace();
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();  
 		}
@@ -200,7 +200,7 @@ public class PioEventServiceImpl implements PioEventService {
 		
 		for(CylinderWrapper cw :list_cw){
 			String categories = getDuringTime(cw,zeroCylinder);
-			
+			System.out.println("--doEventByHistoryPerGroup--categories: " + categories);
 			Double fill_level = Double.parseDouble(cw.getFillingLevel());
 			String Filling_Level_Range = "";
 			if(80 < fill_level && fill_level <= 100){
@@ -215,9 +215,12 @@ public class PioEventServiceImpl implements PioEventService {
 				Filling_Level_Range = "0-20";
 			}
 			String text = cw.getCylinderId() + " " + cw.getMaterialId() + " " + Filling_Level_Range;
+			System.out.println("--doEventByHistoryPerGroup--text: " + text);
 			String label = categories;
 			getListPioEvent(list_pio_event, cw, text, label);
+			System.out.println("--doEventByHistoryPerGroup--list_pio_event: " + list_pio_event);
 		}
+		list_cw = new ArrayList();
 	}
 
 	public int updateHistoryFlag(Map<String, String> paramMap,Connection conn) throws Exception{
@@ -236,6 +239,7 @@ public class PioEventServiceImpl implements PioEventService {
 	}
 	
 	public void getListPioEvent(List<PioEvent> list_pio_event, CylinderWrapper c, String text, String label) {
+		System.out.println("--text--" + text +"--getListPioEvent--label: " + list_pio_event);
 		Date date = new Date();
 		PioEvent event = new PioEvent();
 		//Long entityid = Long.parseLong((Math.random() * 10 + "")) + date.getTime();
@@ -244,6 +248,7 @@ public class PioEventServiceImpl implements PioEventService {
 		event.setEvent("cylinder");
 		event.setEntityType("content");
 		list_pio_event.add(event);
+		System.out.println("--getListPioEvent--list_pio_event: " + list_pio_event);
 	}
 
 	//@Transactional
