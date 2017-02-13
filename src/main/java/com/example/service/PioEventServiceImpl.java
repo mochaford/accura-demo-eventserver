@@ -84,7 +84,7 @@ public class PioEventServiceImpl implements PioEventService {
 			Map<String, List<CylinderWrapper>> groups = new HashMap<String, List<CylinderWrapper>>();
 			List<CylinderWrapper> wrappers = null;
 			for (CylinderWrapper c : list_pioevent) {
-				String key = c.getCylinderId() + c.getMaterialId();
+				String key = c.getCylinderId() + c.getMaterialId() + c.getLocationId();
 				if (groups.containsKey(key)) {
 					wrappers = groups.get(key);
 				} else {
@@ -95,6 +95,7 @@ public class PioEventServiceImpl implements PioEventService {
 			}
 			System.out.println("---groups" + groups);
 			List<CylinderWrapper> eventList = new ArrayList<CylinderWrapper>();
+			List<PioEvent> list_pio_event = new ArrayList<PioEvent>();
 			Set<String> keys = groups.keySet();
 			for (String key : keys) {
 				List<CylinderWrapper> clist = groups.get(key);
@@ -104,28 +105,39 @@ public class PioEventServiceImpl implements PioEventService {
 				if (clist.size() >= 2) {
 					// Integer count = clist.size()/2;
 					// for(Integer i=0;i<count;i++){
+					List<CylinderWrapper> list_cw = new ArrayList();
 					for (Integer i = 0; i < clist.size() - 1; i = i + 2) {
+						
 						CylinderWrapper cw1 = clist.get(i);// 100
-
-						CylinderWrapper cw2 = clist.get(i + 1);// 0
-						if (cw1.getFillingLevel().equals("100") && cw2.getFillingLevel().equals("0")) {
-							Long milliseconds = CylinderWrapper.formatDateByString(cw2.getTimeStamp()).getTime()
-									- CylinderWrapper.formatDateByString(cw1.getTimeStamp()).getTime();
-							Integer duration = (int) (milliseconds / 1000 / 60 / 60 / 24);
-							cw1.setDuration(duration);
-							eventList.add(cw1);
-						} else {
-							i = i - 1;
-							continue;
+						
+						if("0".equals(cw1.getFillingLevel())){
+							doEventByHistoryPerGroup(list_cw,cw1,list_pio_event);
+						}else{
+							list_cw.add(cw1);
 						}
+						System.out.println("--sortAndGroupByEvent--list_cw : " + list_cw);
+						/**
+						 CylinderWrapper cw2 = clist.get(i + 1);// 0
+							if (cw1.getFillingLevel().equals("100") && cw2.getFillingLevel().equals("0")) {
+								Long milliseconds = CylinderWrapper.formatDateByString(cw2.getTimeStamp()).getTime()
+										- CylinderWrapper.formatDateByString(cw1.getTimeStamp()).getTime();
+								Integer duration = (int) (milliseconds / 1000 / 60 / 60 / 24);
+								cw1.setDuration(duration);
+								eventList.add(cw1);
+							} else {
+								i = i - 1;
+								continue;
+							}
+						 * */
 
 					}
 				}
 			}
-			List<PioEvent> list_pio_event = new ArrayList<PioEvent>();
+			//List<PioEvent> list_pio_event = new ArrayList<PioEvent>();
 			// save events
-			for (CylinderWrapper c : eventList) {
-				String text = c.getCylinderId() + ' ' + c.getMaterialId();
+			/**
+			 * for (CylinderWrapper c : eventList) {
+				String text = c.getCylinderId() + " " + c.getMaterialId();
 				String label = "";
 				if (c.getDuration() <= 5)
 					label = "high";
@@ -137,6 +149,7 @@ public class PioEventServiceImpl implements PioEventService {
 				getListPioEvent(list_pio_event, c, text, label);
 
 			}
+			 * */
 			System.out.println(list_pio_event.size() + "---www list_pio_event: " + list_pio_event);
 			return list_pio_event;
 		} catch (Exception e) {
@@ -147,6 +160,64 @@ public class PioEventServiceImpl implements PioEventService {
 		}
 
 		return null;
+	}
+	public String getDuringTime(CylinderWrapper bigFillCW,CylinderWrapper zeroFillCW) throws Exception{
+		Long milliseconds = CylinderWrapper.formatDateByString(zeroFillCW.getTimeStamp()).getTime()
+				- CylinderWrapper.formatDateByString(bigFillCW.getTimeStamp()).getTime();
+		Integer duration = (int) (milliseconds / 1000 / 60 / 60 / 24);
+		String result = "";
+		switch(duration){
+			case 0:
+				result = "<=1";
+				break;
+			case 1:
+				result = "<=1";
+				break;
+			case 2:
+				result = "1<&<=2";
+				break;
+			case 3:
+				result = "2<&<=3";
+				break;
+			case 4:
+				result = "3<&<=4";
+				break;
+			case 5:
+				result = "4<&<=5";
+				break;
+			case 6:
+				result = "5<&<=6";
+				break;
+			case 7:
+				result = "6<&<=7";
+				break;
+			default:
+				result = "7<";
+		}
+		return result;
+	}
+	public void doEventByHistoryPerGroup(List<CylinderWrapper> list_cw,CylinderWrapper zeroCylinder,List<PioEvent> list_pio_event) throws Exception{
+		
+		for(CylinderWrapper cw :list_cw){
+			String categories = getDuringTime(cw,zeroCylinder);
+			
+			Double fill_level = Double.parseDouble(cw.getFillingLevel());
+			String Filling_Level_Range = "";
+			if(80 < fill_level && fill_level <= 100){
+				Filling_Level_Range = "81-100";
+			}else if(60 < fill_level && fill_level <= 80){
+				Filling_Level_Range = "61-80";
+			}else if(40 < fill_level && fill_level <= 60){
+				Filling_Level_Range = "41-60";
+			}else if(20 < fill_level && fill_level <= 40){
+				Filling_Level_Range = "21-40";
+			}else if(0 < fill_level && fill_level <= 20){
+				Filling_Level_Range = "0-20";
+			}
+			String text = cw.getCylinderId() + " " + cw.getMaterialId() + " " + Filling_Level_Range;
+			String label = categories;
+			getListPioEvent(list_pio_event, cw, text, label);
+		}
 	}
 
 	public int updateHistoryFlag(Map<String, String> paramMap,Connection conn) throws Exception{
