@@ -106,7 +106,7 @@ public class PioEventServiceImpl implements PioEventService {
 					// Integer count = clist.size()/2;
 					// for(Integer i=0;i<count;i++){
 					List<CylinderWrapper> list_cw = new ArrayList();
-					for (Integer i = 0; i < clist.size() - 1; i = i + 2) {
+					for (Integer i = 0; i < clist.size(); i ++) {
 						
 						CylinderWrapper cw1 = clist.get(i);// 100
 						
@@ -197,7 +197,7 @@ public class PioEventServiceImpl implements PioEventService {
 		return result;
 	}
 	public void doEventByHistoryPerGroup(List<CylinderWrapper> list_cw,CylinderWrapper zeroCylinder,List<PioEvent> list_pio_event) throws Exception{
-		
+		System.out.println("--doEventByHistoryPerGroup--list_cw: " + list_cw);
 		for(CylinderWrapper cw :list_cw){
 			String categories = getDuringTime(cw,zeroCylinder);
 			System.out.println("--doEventByHistoryPerGroup--categories: " + categories);
