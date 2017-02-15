@@ -218,7 +218,7 @@ public class PioEventServiceImpl implements PioEventService {
 			}else if(0 < fill_level && fill_level <= 20){
 				Filling_Level_Range = "0-20";
 			}
-			String text = cw.getCylinderId() + " " + cw.getMaterialId() + " " + Filling_Level_Range;
+			String text =cw.getMaterialId() + " " +  cw.getLocationId() + " " + Filling_Level_Range;
 			System.out.println("--doEventByHistoryPerGroup--text: " + text);
 			String label = categories;
 			getListPioEvent(list_pio_event, cw, text, label);
