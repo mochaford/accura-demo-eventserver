@@ -232,9 +232,12 @@ public class PioEventServiceImpl implements PioEventService {
 	public int updateHistoryFlag(Map<String, String> paramMap,Connection conn) throws Exception{
 		int result = 0;
 		String sql = "update pio_cylinder_filling_level_history set flag=1 where 1=1 ";
-		for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
+		if(paramMap != null && !paramMap.isEmpty()){
+			for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+				sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
+			}
 		}
+		
 		PreparedStatement ps = null; 
 		ps = conn.prepareStatement(sql); 
 		int i = ps.executeUpdate(); 
