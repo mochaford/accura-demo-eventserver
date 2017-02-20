@@ -12,6 +12,7 @@ public interface PioEventService {
 	List<PioEvent> sortAndGroupByEvent(Map<String,String> paramMap);
 	int addHistory(CylinderWrapper history);
 	boolean addEventList(List<PioEvent> list_pio);
-	public int addHistoryListByJDBC(List<CylinderWrapper> list_history);
+	public String addHistoryListByJDBC(List<CylinderWrapper> list_history);
 	public int addEventListByJDBC(List<PioEvent> list_pio);
+	public String resetData();
 }

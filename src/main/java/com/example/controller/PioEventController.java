@@ -41,11 +41,11 @@ public class PioEventController {
 			System.out.println("---user--" + user);
 			int res = service.addHistory(user);
 			mapper.setResult(res + "");
-			mapper.setContent("");
+			mapper.setBody("");
 			
 		} catch (Exception e) {
 			mapper.setResult("0");
-			mapper.setContent("The Parameter is malformed");
+			mapper.setBody("The Parameter is malformed");
 			e.printStackTrace();
 		}
 		System.out.println("---mapper--" + mapper);
@@ -54,7 +54,9 @@ public class PioEventController {
 		return null;
 	}
 
-	
+	/**
+	 * upload file to history table
+	 * */
 	@RequestMapping(value = "/historyList", method = RequestMethod.POST)
 	@ResponseBody
 	public String addHistoryList(@RequestParam("param") String param) { //@RequestBody
@@ -66,18 +68,26 @@ public class PioEventController {
 			JSONArray jsonArray = JSONArray.fromObject(param);
 			System.out.println("---jsonArray----" + jsonArray);
 			List<CylinderWrapper> list_pioHistory = (List<CylinderWrapper>) JSONArray.toCollection(jsonArray,CylinderWrapper.class);
-			int res = service.addHistoryListByJDBC(list_pioHistory);
+			String res = service.addHistoryListByJDBC(list_pioHistory);
+			if("success".equals(res)){
+				mapper = new ResultMapper("success","");
+			}else{
+				mapper = new ResultMapper("error",res);
+			}
 			System.out.println("---res----" + res);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mapper.setResult("0");
-			mapper.setContent("The Parameter is malformed");
+			mapper.setBody(e.getMessage());
 			return "123";
 		}
-		//JSONObject object = JSONObject.fromObject(mapper);
-		//System.out.println("---object----" + object.toString());
-		return param;
+		JSONObject object = JSONObject.fromObject(mapper);
+		System.out.println("---object----" + object.toString());
+		return object.toString();
 	}
+	/**
+	 * transfor history data to event_1
+	 * */
 	@RequestMapping(value = "/pioEvent", method = RequestMethod.POST)
 	@ResponseBody
 	public String addEventList(@RequestParam("param") String param) { //@RequestBody
@@ -90,60 +100,102 @@ public class PioEventController {
 			if(param != null){
 				paramMap = JsonFormatUtils.parseJSON2MapString(param);
 			}
-			List<PioEvent> list_pioHistory = service.sortAndGroupByEvent(paramMap);
-			System.out.println("---list_pioHistory----" + list_pioHistory);
-			int res = service.addEventListByJDBC(list_pioHistory);
-			//mapper.setResult(res);
-			System.out.println("---res----" + res);
-			return res + "";
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					List<PioEvent> list_pioHistory = service.sortAndGroupByEvent(null);
+					System.out.println("---list_pioHistory----" + list_pioHistory);
+					int res = service.addEventListByJDBC(list_pioHistory);
+					//mapper.setResult(res);
+					System.out.println("---res----" + res);
+				}
+			}).start();
+			mapper = new ResultMapper("success","");
+			JSONObject object = JSONObject.fromObject(mapper);
+			System.out.println("---object----" + object.toString());
+			return object.toString();
 		} catch (Exception e) {
 			System.out.println("--addEventList exception" + e.getMessage());
 			e.printStackTrace();
 			mapper.setResult("0");
-			mapper.setContent(e.getMessage());
+			mapper.setBody(e.getMessage());
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();  
 			return "123";
 		}
 		//JSONObject object = JSONObject.fromObject(mapper);
 		//System.out.println("---object----" + object.toString());
 	}
-
-	class ResultMapper {
-		public String result;
-		public String content;
+	/**
+	 * reset history and event table
+	 * 
+	 * */
+	@RequestMapping(value = "/reset", method = RequestMethod.POST)
+	@ResponseBody
+	public String resetData() { //@RequestBody
+		ResultMapper mapper = null;
+		try {
+			//JSONArray jsonArray = JSONArray.fromObject(param);
+			//List<PioEvent> list_pioHistory = (List<PioEvent>) JSONArray.toCollection(jsonArray,PioCylinderHistory.class);
+			Map<String,String> paramMap = new HashMap();
+			
+			String resetResult = service.resetData();
+			System.out.println("-resetData--resetResult----" + resetResult);
+			if("success".equals(resetResult)){
+				mapper = new ResultMapper("success","");
+			}else{
+				mapper = new ResultMapper("error",resetResult);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("--addEventList exception" + e.getMessage());
+			e.printStackTrace();
+			mapper = new ResultMapper("error",e.getMessage());
+			mapper.setBody(e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();  
+		}
+		JSONObject object = JSONObject.fromObject(mapper);
+		return object.toString();
+		//JSONObject object = JSONObject.fromObject(mapper);
+		//System.out.println("---object----" + object.toString());
+	}
+	
+	public class ResultMapper {
+		private  String result;
+		private  String body;
 
 		public ResultMapper() {
-
+			
 		}
-
-		public String getContent() {
-			return content;
+		public ResultMapper(String result,String body) {
+			this.result = result;
+			this.body = body;
 		}
-
-
-
-		public void setContent(String content) {
-			this.content = content;
-		}
-
-
-
+		
 		public String getResult() {
 			return result;
 		}
 
+		public String getBody() {
+			return body;
+		}
+		public void setBody(String body) {
+			this.body = body;
+		}
 		public void setResult(String result) {
+			System.out.println("---set--" + result);
 			if ("0".equals(result))
 				this.result = "failure";
 			else
 				this.result = "success";
+			System.out.println("---set-body-" + this.body);
 		}
 
 	}
 	public static void main(String[] args) {
-		ResultMapper mapper = new PioEventController().new ResultMapper();
-		mapper.setResult("0");
-		mapper.setContent("---");
+		ResultMapper mapper = new PioEventController().new ResultMapper("error","error1");
+		
 		JSONObject object = JSONObject.fromObject(mapper);
 		System.out.println("---object----" + object.toString());
 		

@@ -164,7 +164,7 @@ public class PioEventServiceImpl implements PioEventService {
 	public String getDuringTime(CylinderWrapper bigFillCW,CylinderWrapper zeroFillCW) throws Exception{
 		Long milliseconds = CylinderWrapper.formatDateByString(zeroFillCW.getTimeStamp()).getTime()
 				- CylinderWrapper.formatDateByString(bigFillCW.getTimeStamp()).getTime();
-		Integer duration = (int) (milliseconds / 1000 / 60 / 60 / 24);
+		Integer duration = (int)Math.ceil((milliseconds / 1000 / 60 / 60 / 24));
 		String result = "";
 		switch(duration){
 			case 0:
@@ -282,8 +282,7 @@ public class PioEventServiceImpl implements PioEventService {
 		return result;
 	}
 
-	public int addHistoryListByJDBC(List<CylinderWrapper> list_history){
-		int result = 0;
+	public String addHistoryListByJDBC(List<CylinderWrapper> list_history){
 		try {
 			Connection conn = DBHelper.getConnection();
 			conn.setAutoCommit(false);
@@ -305,11 +304,12 @@ public class PioEventServiceImpl implements PioEventService {
 			 System.out.println("--count " + count);
 		} catch (Exception e) {
 			// TODO: handle exception
-			result = 1;
 			System.out.println("--exception " + e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();  
 			e.printStackTrace();
+			return e.getMessage();
 		}
-		return result;
+		return "success";
 	}
 
 	public int addEventListByJDBC(List<PioEvent> list_pio){
@@ -379,5 +379,35 @@ public class PioEventServiceImpl implements PioEventService {
 		}
 
 		return flag;
+	}
+
+	/**
+	 * 
+	 * reset table pio_cylinder_filling_level_history,pio_event_1
+	 * */
+	@Override
+	public String resetData() {
+		try {
+			Connection conn = DBHelper.getConnection();
+			conn.setAutoCommit(false);
+			String sql = "TRUNCATE TABLE pio_cylinder_filling_level_history";     
+			String sql_event = "TRUNCATE TABLE pio_event_1";  
+			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
+			PreparedStatement prest_event = conn.prepareStatement(sql_event,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
+			 System.out.println("-resetDataByParam-count---- " );
+			 int[] count = prest.executeBatch();  
+			 int[] count_event = prest_event.executeBatch();  
+			 System.out.println("-resetDataByParam-count---- " + count);
+			 System.out.println("-resetDataByParam-count_event---- " + count_event);
+			 conn.commit();
+			 DBHelper.release(conn, null, null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("-resetDataByParam-exception " + e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); 
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return "success";
 	}
 }
