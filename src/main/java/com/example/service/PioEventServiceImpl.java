@@ -53,8 +53,10 @@ public class PioEventServiceImpl implements PioEventService {
 		
 		String sql = "select id,cylinderid,materialid,locationid,filling_level,timestamp,"
 				+ "flag from pio_cylinder_filling_level_history where flag=0 ";
-		for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-			sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
+		if(paramMap != null && !paramMap.isEmpty()){
+			for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+				sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
+			}
 		}
 		try {
 			System.out.println("---sql " + sql);
