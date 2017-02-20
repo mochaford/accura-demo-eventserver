@@ -395,10 +395,10 @@ public class PioEventServiceImpl implements PioEventService {
 			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
 			PreparedStatement prest_event = conn.prepareStatement(sql_event,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
 			 System.out.println("-resetDataByParam-count---- " );
-			 int[] count = prest.executeBatch();  
-			 int[] count_event = prest_event.executeBatch();  
-			 System.out.println("-resetDataByParam-count---- " + count.toString());
-			 System.out.println("-resetDataByParam-count_event---- " + count_event.toString());
+			 boolean count = prest.execute(); 
+			 boolean count_event = prest_event.execute();  
+			 System.out.println("-resetDataByParam-count---- " + count);
+			 System.out.println("-resetDataByParam-count_event---- " + count_event);
 			 //conn.commit();
 			 DBHelper.release(conn, null, null);
 		} catch (Exception e) {
