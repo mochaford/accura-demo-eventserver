@@ -389,7 +389,7 @@ public class PioEventServiceImpl implements PioEventService {
 	public String resetData() {
 		try {
 			Connection conn = DBHelper.getConnection();
-			conn.setAutoCommit(false);
+			//conn.setAutoCommit(false);
 			String sql = "TRUNCATE TABLE pio_cylinder_filling_level_history";     
 			String sql_event = "TRUNCATE TABLE pio_event_1";  
 			PreparedStatement prest = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);  
@@ -397,9 +397,9 @@ public class PioEventServiceImpl implements PioEventService {
 			 System.out.println("-resetDataByParam-count---- " );
 			 int[] count = prest.executeBatch();  
 			 int[] count_event = prest_event.executeBatch();  
-			 System.out.println("-resetDataByParam-count---- " + count);
-			 System.out.println("-resetDataByParam-count_event---- " + count_event);
-			 conn.commit();
+			 System.out.println("-resetDataByParam-count---- " + count.toString());
+			 System.out.println("-resetDataByParam-count_event---- " + count_event.toString());
+			 //conn.commit();
 			 DBHelper.release(conn, null, null);
 		} catch (Exception e) {
 			// TODO: handle exception
