@@ -15,4 +15,5 @@ public interface PioEventService {
 	public String addHistoryListByJDBC(List<CylinderWrapper> list_history);
 	public int addEventListByJDBC(List<PioEvent> list_pio);
 	public String resetData();
+	List<PioEvent> getEventListByParam(Map<String,String> paramMap) throws Exception;
 }

@@ -415,4 +415,30 @@ public class PioEventServiceImpl implements PioEventService {
 		}
 		return "success";
 	}
+	
+	/**
+	 * get event list by paramMap
+	* */
+	@Override
+	public List<PioEvent> getEventListByParam(Map<String,String> paramMap) throws Exception{
+		Connection conn = DBHelper.getConnection();
+		conn.setAutoCommit(false);
+		String sql = "select properties ,eventtimezone from pio_event_1 where 1=1 ";
+		if(paramMap != null && !paramMap.isEmpty()){
+			for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+				sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
+			}
+		}
+		sql += " limit 30 order by eventtimezone desc";
+		PreparedStatement prest = conn.prepareStatement(sql);
+		ResultSet rs = prest.executeQuery(sql);
+		List<PioEvent> list_pioevent = new ArrayList<PioEvent>();
+		while(rs.next()){
+			PioEvent pio = new PioEvent();
+			pio.setProperties(rs.getString("properties"));
+			pio.setEventTimeZone(StringFormatUtils.getStringFromTimestamp(rs.getTimestamp("eventtimezone")));
+			list_pioevent.add(pio);
+		}
+		return list_pioevent;
+	}
 }
