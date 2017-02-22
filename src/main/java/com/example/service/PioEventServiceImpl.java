@@ -422,7 +422,7 @@ public class PioEventServiceImpl implements PioEventService {
 	@Override
 	public List<PioEvent> getEventListByParam(Map<String,String> paramMap) throws Exception{
 		Connection conn = DBHelper.getConnection();
-		conn.setAutoCommit(false);
+		
 		String sql = "select properties ,eventtimezone from pio_event_1 where 1=1 ";
 		if(paramMap != null && !paramMap.isEmpty()){
 			for (Map.Entry<String, String> entry : paramMap.entrySet()) {
@@ -431,7 +431,7 @@ public class PioEventServiceImpl implements PioEventService {
 		}
 		sql += " limit 30 order by eventtimezone desc";
 		PreparedStatement prest = conn.prepareStatement(sql);
-		ResultSet rs = prest.executeQuery(sql);
+		ResultSet rs = prest.executeQuery();
 		List<PioEvent> list_pioevent = new ArrayList<PioEvent>();
 		while(rs.next()){
 			PioEvent pio = new PioEvent();
@@ -439,6 +439,8 @@ public class PioEventServiceImpl implements PioEventService {
 			pio.setEventTimeZone(StringFormatUtils.getStringFromTimestamp(rs.getTimestamp("eventtimezone")));
 			list_pioevent.add(pio);
 		}
+		
+			 DBHelper.release(conn, null, null);
 		return list_pioevent;
 	}
 }
