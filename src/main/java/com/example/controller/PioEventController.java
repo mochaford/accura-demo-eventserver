@@ -158,7 +158,7 @@ public class PioEventController {
 	 * query 15 records from event_1
 	 * 
 	 * */
-	@RequestMapping(value = "/eventList", method = RequestMethod.GET)
+	@RequestMapping(value = "/eventList", method = RequestMethod.POST)
 	@ResponseBody
 	public String getEventListByParam(@RequestParam("param") String param) { //@RequestBody
 		ResultMapper mapper = null;
