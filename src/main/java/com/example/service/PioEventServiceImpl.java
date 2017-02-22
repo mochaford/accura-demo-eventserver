@@ -423,7 +423,7 @@ public class PioEventServiceImpl implements PioEventService {
 	public List<PioEvent> getEventListByParam(Map<String,String> paramMap) throws Exception{
 		Connection conn = DBHelper.getConnection();
 		
-		String sql = "select properties ,eventtimezone from pio_event_1 where 1=1 ";
+		String sql = "select properties ,eventtime from pio_event_1 where 1=1 ";
 		if(paramMap != null && !paramMap.isEmpty()){
 			for (Map.Entry<String, String> entry : paramMap.entrySet()) {
 				sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
@@ -436,7 +436,7 @@ public class PioEventServiceImpl implements PioEventService {
 		while(rs.next()){
 			PioEvent pio = new PioEvent();
 			pio.setProperties(rs.getString("properties"));
-			pio.setEventTimeZone(StringFormatUtils.getStringFromTimestamp(rs.getTimestamp("eventtimezone")));
+			pio.setEventTime(StringFormatUtils.getStringFromTimestamp(rs.getTimestamp("eventtime")));
 			list_pioevent.add(pio);
 		}
 		
