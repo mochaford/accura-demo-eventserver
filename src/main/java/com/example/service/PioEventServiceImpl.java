@@ -429,7 +429,7 @@ public class PioEventServiceImpl implements PioEventService {
 				sql += " and  '" + entry.getKey() + "' = " + entry.getValue();
 			}
 		}
-		sql += " limit 30 order by eventtimezone desc";
+		sql += " order by eventtimezone desc  limit 20";
 		PreparedStatement prest = conn.prepareStatement(sql);
 		ResultSet rs = prest.executeQuery();
 		List<PioEvent> list_pioevent = new ArrayList<PioEvent>();
